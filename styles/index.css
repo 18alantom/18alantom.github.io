@@ -1,0 +1,72 @@
+@import url('./common.css');
+
+header {
+  display: flex;
+  flex-direction: column;
+  padding: var(--spacing) 0 calc(var(--spacing) / 2) 0;
+  /* height: 50vh; */
+}
+
+header > div {
+  width: 100%;
+  height: 100%;
+  background-color: var(--color-bg-light);
+  box-shadow: var(--shadow-md);
+  background: radial-gradient(
+    132% 132% at 37.5% 125%,
+    #1f182685 15.73%,
+    #5b3d7987 100%
+  );
+}
+
+header > h1 {
+  color: var(--color-accent);
+  font-size: var(--fs-4xl);
+  margin: var(--spacing) 0 calc(var(--spacing) / 4) 0;
+}
+
+header > p {
+  font-size: var(--fs-base);
+  margin: 0;
+}
+
+section {
+  padding: var(--spacing) 0;
+  padding-top: calc(var(--spacing) / 2);
+}
+
+#posts {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing);
+}
+
+#posts::-webkit-scrollbar {
+  display: none;
+}
+
+#posts > a {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--spacing) / 8);
+  width: 100%;
+
+  color: var(--color-text);
+  transition: color 150ms var(--trans-func);
+  border-bottom: none;
+}
+
+#posts > a:hover {
+  color: var(--color-accent-light);
+}
+
+.title {
+  font-size: var(--fs-lg);
+}
+
+.date-location {
+  display: flex;
+  gap: calc(var(--spacing) / 4);
+  font-size: var(--fs-xs);
+  opacity: var(--opacity-text);
+}

@@ -1,0 +1,170 @@
+@import url('./common.css');
+
+:root {
+  --heading-filter: saturate(0.5);
+  --mb-common: 1.25rem;
+  --lh-p: calc(var(--fs-base) * 1.65);
+}
+
+h1 {
+  color: var(--color-accent);
+  font-size: var(--fs-4xl);
+  margin-top: 1rem;
+  margin-bottom: var(--mb-common);
+}
+
+h2 {
+  color: var(--color-accent);
+  filter: var(--heading-filter);
+
+  font-size: var(--fs-2xl);
+  margin-top: 2.5rem;
+  margin-bottom: var(--mb-common);
+}
+
+h3 {
+  color: var(--color-accent);
+  filter: var(--heading-filter);
+
+  font-size: var(--fs-xl);
+  margin-top: 2.25rem;
+  margin-bottom: var(--mb-common);
+}
+
+h4 {
+  color: var(--color-accent);
+  filter: var(--heading-filter);
+
+  font-size: var(--fs-lg);
+  margin-top: 2rem;
+  margin-bottom: var(--mb-common);
+}
+
+p {
+  font-size: var(--fs-base);
+  line-height: var(--lh-p);
+  margin-top: 1rem;
+  margin-bottom: var(--mb-common);
+}
+
+em,
+strong {
+  color: var(--color-accent-light);
+}
+
+strong {
+  opacity: var(--opacity-text);
+}
+
+body {
+  margin-bottom: calc(var(--spacing) * 2);
+}
+
+img {
+  width: 100%;
+  margin: 0.5rem 0;
+  box-shadow: var(--shadow-md);
+}
+
+figcaption {
+  width: 100%;
+  text-align: center;
+  font-size: var(--fs-xs);
+  opacity: var(--opacity-text);
+}
+
+hr {
+  position: relative;
+  border: none;
+  height: 1rem;
+  margin: var(--spacing) 0px;
+}
+
+hr:after {
+  position: absolute;
+
+  top: 0px;
+  left: 0px;
+  width: 100%;
+
+  content: '* * *';
+  text-align: center;
+  word-spacing: var(--spacing);
+  font-size: var(--fs-base);
+
+  color: var(--color-accent-dark);
+}
+
+pre {
+  width: 100%;
+  margin: var(--spacing) 0px;
+  background-color: var(--color-bg-light);
+  padding: calc(var(--spacing) / 2);
+  box-sizing: border-box;
+  box-shadow: var(--shadow-md);
+}
+
+/* Hover Tooltip Button Element */
+[data-content] {
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+  border: inherit;
+  background: inherit;
+  display: inline;
+  position: inherit;
+  line-break: inherit;
+  word-wrap: inherit;
+  height: inherit;
+
+  height: auto;
+  width: auto;
+
+  margin: 0;
+  padding: 0;
+
+  position: relative;
+  cursor: pointer;
+  border-bottom: 2px solid;
+  border-color: var(--color-accent-dark);
+  transition: border 150ms var(--trans-func);
+}
+
+[data-content]:focus {
+  filter: none;
+  border-color: var(--color-accent);
+}
+
+[data-content]:after {
+  opacity: 0;
+  transition-timing-function: var(--trans-func);
+  transition-duration: 150ms;
+  transition-property: opacity, top, box-shadow;
+
+  pointer-events: none;
+  content: attr(data-content);
+  font-size: var(--fs-sm);
+  line-height: 150%;
+  text-align: start;
+
+  width: 256px;
+  box-sizing: border-box;
+  overflow-y: auto;
+  padding: calc(var(--spacing) / 2);
+
+  position: absolute;
+  top: 0px;
+  left: 50%;
+  transform: translate(-50%, -100%);
+
+  color: var(--color-text);
+  background-color: var(--color-bg-light);
+  box-shadow: 0px 0px 0px hsla(270, 8%, 5%, 0.8),
+    0px 0px 0px hsl(263, 11%, 15%, 0.6);
+}
+
+[data-content]:focus:after {
+  opacity: 1;
+  top: calc(var(--spacing) * -0.5);
+  box-shadow: var(--shadow-lg);
+}

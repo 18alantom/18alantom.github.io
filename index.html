@@ -1,1 +1,56 @@
-<h1>Hi, I am Alan ✌️</h1>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Loading Sylesheets and Other Stuff -->
+    <link rel="stylesheet" href="./styles/index.css" />
+    <link rel="icon" href="./assets/favicon.ico" type="image/x-icon" />
+
+    <!-- Loading Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+      rel="stylesheet"
+    />
+
+    <title>Alan's Space</title>
+  </head>
+  <body>
+    <main>
+      <header>
+        <!-- <div>banner div</div> -->
+        <h1>Hi, I'm Alan</h1>
+        <p>I write because I must.</p>
+      </header>
+      <nav id="nav">
+        <!-- <a href="#nav">posts</a> -->
+        <a href="about.html">about</a>
+      </nav>
+      <section id="posts">
+        <template id="post">
+          <a>
+            <h2 class="title">
+              <slot name="title" />
+            </h2>
+            <div class="date-location">
+              <time>
+                <slot name="date" />
+              </time>
+              <p>
+                <slot name="location" />
+              </p>
+            </div>
+            <p class="description">
+              <slot name="description" />
+            </p>
+          </a>
+        </template>
+      </section>
+      <script src="./index.js" type="text/javascript"></script>
+    </main>
+  </body>
+</html>

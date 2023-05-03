@@ -1,0 +1,129 @@
+:root {
+  /* Colors */
+  --color-accent-light: hsl(270, 85%, 90%);
+  --color-accent: hsl(270, 65%, 75%);
+  --color-accent-dark: hsl(270, 35%, 60%);
+
+  --color-bg-light: hsl(270, 15%, 15%);
+  --color-bg: hsl(270, 11%, 10%);
+
+  --color-text: hsl(264, 15%, 80%);
+  --color-link: var(--color-accent-light);
+
+  --opacity-text: 0.8;
+  --width-main: 100vw;
+  --spacing: 1.5rem;
+
+  --trans-func: cubic-bezier(0.4, 0, 0.2, 1);
+
+  --shadow-md: 0px 6px 20px hsla(270, 8%, 5%, 0.8),
+    0px -6px 10px hsl(263, 11%, 15%, 0.6);
+  --shadow-lg: 0px 12px 40px hsla(270, 8%, 5%, 0.8),
+    0px -12px 20px hsl(263, 11%, 15%, 0.6);
+
+  /* Font Sizes */
+  --fs-4xl: 2.25rem;
+  --fs-3xl: 1.875rem;
+  --fs-2xl: 1.5rem;
+  --fs-xl: 1.25rem;
+  --fs-lg: 1.125rem;
+  --fs-base: 1rem;
+  --fs-sm: 0.875rem;
+  --fs-xs: 0.75rem;
+}
+
+* {
+  margin: 0px;
+  outline: var(--color-accent);
+}
+
+*:focus {
+  filter: brightness(1.25) saturate(1.25);
+}
+
+html {
+  font-size: 14px;
+  font-family: 'Open Sans', sans-serif;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  scroll-behavior: smooth;
+}
+
+a {
+  text-decoration: none;
+  color: var(--color-text);
+  transition: color 150ms var(--trans-func),
+    border-color 150ms var(--trans-func);
+  border-bottom: 2px solid var(--color-text);
+}
+
+a:hover {
+  color: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+body {
+  width: var(--width-main);
+  min-width: 300px;
+  min-height: 100vh;
+  height: fit-content;
+  box-sizing: border-box;
+  margin: 0px auto;
+  padding: 0px var(--spacing);
+}
+
+nav {
+  position: sticky;
+  top: 0rem;
+  padding: calc(var(--spacing) / 2) 0;
+  overflow: hidden;
+
+  display: flex;
+  gap: var(--spacing);
+  z-index: 10;
+
+  background-color: var(--color-bg);
+
+  font-size: var(--fs-sm);
+  letter-spacing: 2px;
+}
+
+nav > a {
+  border-bottom: none;
+  color: var(--color-accent-dark);
+  transition: color 150ms var(--trans-func);
+}
+
+nav > a:hover {
+  color: var(--color-accent);
+}
+
+@media only screen and (min-width: 664px) {
+  :root {
+    --width-main: 600px;
+    --spacing: 2rem;
+  }
+
+  html {
+    font-size: 16px;
+  }
+
+  body {
+    padding: 0;
+  }
+}
+
+@media only screen and (min-width: 1024px) {
+  :root {
+    --width-main: 800px;
+    --spacing: 2rem;
+  }
+
+  html {
+    font-size: 16px;
+  }
+
+  body {
+    padding: 0;
+  }
+}
