@@ -1,14 +1,18 @@
+@import url('./fonts/fonts.css');
+
 :root {
   /* Colors */
   --color-accent-light: hsl(270, 85%, 90%);
   --color-accent: hsl(270, 65%, 75%);
-  --color-accent-dark: hsl(270, 35%, 60%);
+  --color-accent-dark: hsl(270, 35%, 70%);
 
-  --color-bg-light: hsl(270, 15%, 15%);
-  --color-bg: hsl(270, 11%, 10%);
+  --color-bg-light: hsl(270, 20%, 18%);
+  --color-bg: hsl(270, 11%, 12%);
+  --color-bg-dark: hsl(270, 80%, 5%);
 
-  --color-text: hsl(264, 15%, 80%);
+  --color-text: hsl(264, 15%, 87%);
   --color-link: var(--color-accent-light);
+  --color-border: hsl(270, 15%, 25%);
 
   --opacity-text: 0.8;
   --width-main: 100vw;
@@ -16,9 +20,8 @@
 
   --trans-func: cubic-bezier(0.4, 0, 0.2, 1);
 
-  --shadow-md: 0px 6px 20px hsla(270, 8%, 5%, 0.8),
-    0px -6px 10px hsl(263, 11%, 15%, 0.6);
-  --shadow-lg: 0px 12px 40px hsla(270, 8%, 5%, 0.8),
+  --shadow-md: 0px 4px 20px hsla(270, 8%, 5%, 0.9);
+  --shadow-lg: 0px 12px 40px hsla(270, 8%, 5%, 0.9),
     0px -12px 20px hsl(263, 11%, 15%, 0.6);
 
   /* Font Sizes */
@@ -28,8 +31,15 @@
   --fs-xl: 1.25rem;
   --fs-lg: 1.125rem;
   --fs-base: 1rem;
-  --fs-sm: 0.875rem;
+  --fs-sm: 0.835rem;
   --fs-xs: 0.75rem;
+
+  /* Post Specific */
+  --heading-filter: saturate(0.8);
+  --mt-common: 1rem;
+  --mb-common: 1.25rem;
+  --lh-p: calc(var(--fs-base) * 1.65);
+  --border: 1px solid var(--color-border);
 }
 
 * {
@@ -42,16 +52,21 @@
 }
 
 html {
-  font-size: 14px;
+  font-size: 16px;
   font-family: 'Open Sans', sans-serif;
   background-color: var(--color-bg);
   color: var(--color-text);
   scroll-behavior: smooth;
 }
 
+pre,
+code {
+  font-family: 'Fira Code', monospace;
+}
+
 a {
   text-decoration: none;
-  color: var(--color-text);
+  color: inherit;
   transition: color 150ms var(--trans-func),
     border-color 150ms var(--trans-func);
   border-bottom: 2px solid var(--color-text);
@@ -79,6 +94,7 @@ nav {
   overflow: hidden;
 
   display: flex;
+  align-items: center;
   gap: var(--spacing);
   z-index: 10;
 
@@ -86,12 +102,25 @@ nav {
 
   font-size: var(--fs-sm);
   letter-spacing: 2px;
+
+  margin-left: calc(-1 * var(--spacing));
+  padding-left: var(--spacing);
+
+  margin-right: calc(-1 * var(--spacing));
+  padding-right: var(--spacing);
 }
 
 nav > a {
   border-bottom: none;
   color: var(--color-accent-dark);
   transition: color 150ms var(--trans-func);
+}
+
+nav > img {
+  width: var(--fs-sm);
+  height: var(--fs-sm);
+  margin: 0;
+  margin-left: auto;
 }
 
 nav > a:hover {
@@ -105,7 +134,7 @@ nav > a:hover {
   }
 
   html {
-    font-size: 16px;
+    font-size: 18px;
   }
 
   body {
@@ -120,7 +149,7 @@ nav > a:hover {
   }
 
   html {
-    font-size: 16px;
+    font-size: 18px;
   }
 
   body {

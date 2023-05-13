@@ -1,5 +1,11 @@
 const posts = [
   {
+    title: 'How hard is it to build a frontend framework?',
+    date: '2023-05-13',
+    description:
+      'Or rather how hard is it to replicate reactivity and composability, features that most frontend frameworks give us?',
+  },
+  {
     title: 'Misanthropy Thwarted',
     date: '2022-01-22',
     description: 'A serendipitous reminder to douse the cynic.',
@@ -133,4 +139,13 @@ for (const post of posts) {
   }
 
   postsSection.append(element);
+}
+
+function escapeHTML(unsafe) {
+  return unsafe
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
 }

@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#1f1b22" />
+
+    <link rel="stylesheet" href="../styles/post.css" />
+    <link rel="stylesheet" href="../styles/highlighting.css" />
+    <link rel="icon" href="../assets/logo.png" type="image/x-icon" />
+    <script src="../scripts/posts.js"></script>
+
+    <title>How hard is it to build a frontend framework?</title>
+  </head>
+  <body>
+    <nav id="nav">
+      <a href="../">home</a>
+      <a href="../about.html">about</a>
+      <img src="../assets/logo.png" />
+    </nav>
+    <h1 id="how-hard-is-it-to-build-a-frontend-framework">
+      How hard is it to build a frontend framework?
+    </h1>
+    <time datetime="2023-05-13">13th May, 2023</time>
+    <p>
+      Before I start—to set some context—by frontend framework what I mean is, a
+      framework that allows us to <strong>avoid</strong> having to write regular
+      old HTML and JavaScript such as this:
+    </p>
+    <div class="sourceCode" id="cb1">
+      <pre
+        class="sourceCode html"
+      ><code class="sourceCode html"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;p</span> <span class="er">id</span><span class="ot">=</span><span class="st">&quot;cool-para&quot;</span><span class="kw">&gt;&lt;/p&gt;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;script&gt;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> coolPara <span class="op">=</span> <span class="st">&#39;Lorem ipsum.&#39;</span><span class="op">;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> el <span class="op">=</span> <span class="bu">document</span><span class="op">.</span><span class="fu">getElementById</span>(<span class="st">&#39;cool-para&#39;</span>)<span class="op">;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  el<span class="op">.</span><span class="at">innerText</span> <span class="op">=</span> coolPara<span class="op">;</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/script&gt;</span></span></code></pre>
+    </div>
+    <p>
+      and instead allows us to write magical HTML and JavaScript code such as
+      this (<a
+        target="_blank"
+        rel="noreferrer"
+        href="https://vuejs.org/guide/scaling-up/sfc.html#introduction"
+        >Vue</a
+      >):
+    </p>
+    <div class="sourceCode" id="cb2">
+      <pre
+        class="sourceCode html"
+      ><code class="sourceCode html"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;script</span> <span class="er">setup</span><span class="kw">&gt;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> coolPara <span class="op">=</span> <span class="st">&#39;Lorem ipsum.&#39;</span><span class="op">;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/script&gt;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;template&gt;</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;p&gt;</span>{{ coolPara }}<span class="kw">&lt;/p&gt;</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/template&gt;</span></span></code></pre>
+    </div>
+    <p>
+      or this (<a
+        target="_blank"
+        rel="noreferrer"
+        href="https://react.dev/learn/your-first-component#defining-a-component"
+        >React</a
+      >):
+    </p>
+    <div class="sourceCode" id="cb3">
+      <pre
+        class="sourceCode javascript"
+      ><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">export</span> <span class="im">default</span> <span class="kw">function</span> <span class="fu">Para</span>() {</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> coolPara <span class="op">=</span> <span class="st">&#39;Lorem ipsum&#39;</span><span class="op">;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> <span class="op">&lt;</span>p<span class="op">&gt;</span>{ coolPara }<span class="op">&lt;/</span>p<span class="op">&gt;;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre>
+    </div>
+    <p>
+      and the benefit of such a framework is understandable. Remembering words
+      or phrases such as <code>document</code>, <code>innerText</code>, and
+      <code>getElementById</code> are difficult—so many syllables!
+    </p>
+    <p>Okay, syllable count isn’t the main reason.</p>
+    <blockquote>
+      <p>Reactivity ✨</p>
+    </blockquote>
+    <p>
+      The <em>first main</em> reason is that in the second and third examples,
+      we can just set or update the value of the variable
+      <code>coolPara</code> and the markup—i.e. the <code>&lt;p&gt;</code>
+      element—is updated without without explicitly having to set its
+      <code>innerText</code>.
+    </p>
+    <p>
+      This is called <em>reactivity</em>, the UI is tied to the data in such a
+      way that just changing the data updates the UI.
+    </p>
+    <blockquote>
+      <p>Composability ✨</p>
+    </blockquote>
+    <p>
+      The <em>second main</em> reason is the ability to define a component and
+      reuse it without having to redefine it every time we need to use it. This
+      is called <em>composability</em>.
+    </p>
+    <p>
+      Regular HTML + JavaScript does not have this by default. And so the
+      following code does <strong>not</strong> do what it feels like it should:
+    </p>
+    <div class="sourceCode" id="cb4">
+      <pre
+        class="sourceCode html"
+      ><code class="sourceCode html"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- Defining the component --&gt;</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;component</span> <span class="er">name</span><span class="ot">=</span><span class="st">&quot;cool-para&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;p&gt;</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;content</span> <span class="kw">/&gt;</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;/p&gt;</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/component&gt;</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- Using the component --&gt;</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;cool-para&gt;</span>Lorem ipsum.<span class="kw">&lt;/cool-para&gt;</span></span></code></pre>
+    </div>
+    <p>
+      And these are the two main things the usual frontend frameworks such as
+      Vue, React, etc give us.
+    </p>
+    <p>
+      These abstractions aren’t granted for free, one has to front-load a bunch
+      of framework specific concepts, deal with their leakiness when things work
+      in magical ways, and not to mention, a whole load of failure-prone
+      dependencies.
+    </p>
+    <p>
+      But, it turns out that using modern Web APIs these two things aren’t very
+      hard to achieve. And most use cases we might not actually need the usual
+      frameworks and their cacophony of complexities…
+    </p>
+    <h2 id="reactivity">Reactivity</h2>
+    <p>
+      A simple statement that explains reactivity is
+      <em>when the data updates, update the UI automatically</em>.
+    </p>
+    <p>
+      The first part is to know <em>when the data updates</em>. This
+      unfortunately is not something a <em>regular object</em> can do. We can't
+      just attach a listener called <code>ondataupdate</code> to listen to data
+      update events.
+    </p>
+    <p>
+      Fortunately JavaScript has just the thing that would allow us to do this,
+      it’s called
+      <a
+        target="_blank"
+        rel="noreferrer"
+        href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy"
+        ><code>Proxy</code></a
+      >.
+    </p>
+    <h3 id="proxy-objects"><code>Proxy</code> Objects</h3>
+    <p>
+      <code>Proxy</code> allows us to create a <em>proxy object</em> from a
+      <em>regular object</em>:
+    </p>
+    <div class="sourceCode" id="cb5">
+      <pre
+        class="sourceCode javascript"
+      ><code class="sourceCode javascript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> user <span class="op">=</span> { <span class="dt">name</span><span class="op">:</span> <span class="st">&#39;Lin&#39;</span> }<span class="op">;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> proxy <span class="op">=</span> <span class="kw">new</span> <span class="bu">Proxy</span>(user)<span class="op">;</span></span></code></pre>
+    </div>
+    <p>
+      and this <em>proxy object</em> can then listen to changes to the data.
+    </p>
+    <p>
+      In the example above we have a <em>proxy object</em>, but it is not really
+      doing anything when it comes to know that <code>name</code> has changed.
+    </p>
+    <p>
+      For that we need a <em>handler</em>, which is an object that tells the
+      <em>proxy object</em> what to do when the data is updated.
+    </p>
+    <div class="sourceCode" id="cb6">
+      <pre
+        class="sourceCode javascript"
+      ><code class="sourceCode javascript"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Handler that listens to data assignment operations</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> handler <span class="op">=</span> {</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">set</span>(user<span class="op">,</span> value<span class="op">,</span> property) {</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="vs">`</span><span class="sc">${</span>property<span class="sc">}</span><span class="vs"> is being updated`</span>)<span class="op">;</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">Reflect</span><span class="op">.</span><span class="fu">set</span>(user<span class="op">,</span> value<span class="op">,</span> property)<span class="op">;</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co">// Creating a proxy with the handler</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> user <span class="op">=</span> { <span class="dt">name</span><span class="op">:</span> <span class="st">&#39;Lin&#39;</span> }<span class="op">;</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> proxy <span class="op">=</span> <span class="kw">new</span> <span class="bu">Proxy</span>(user<span class="op">,</span> handler)<span class="op">;</span></span></code></pre>
+    </div>
+    <p>
+      Now whenever we update <code>name</code> using the <code>proxy</code>
+      object, we’ll get a message saying
+      <code>"name is being updated"</code>.
+    </p>
+    <p>
+      If you’re wondering,
+      <em
+        >What’s the big deal, I could’ve done this using a regular old
+        <a
+          target="_blank"
+          rel="noreferrer"
+          href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/set"
+          >setter</a
+        ></em
+      >, I’ll tell you the deal:
+    </p>
+    <ul>
+      <li>
+        The proxy method is generalized, and handlers can be reused, which means
+        that…
+      </li>
+      <li>
+        <em>Any</em> value you set on a proxied object can be recursively
+        converted into a proxy, which means that…
+      </li>
+      <li>
+        You now have this magical object with the ability to <em>react</em> to
+        data updates no matter how nested it is.
+      </li>
+    </ul>
+    <p>
+      Other than this you can
+      <a
+        target="_blank"
+        rel="noreferrer"
+        href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy/Proxy#handler_functions"
+        >handle</a
+      >
+      several other access events such as when a property is
+      <a
+        target="_blank"
+        rel="noreferrer"
+        href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy/Proxy/get"
+        >read</a
+      >,
+      <a
+        target="_blank"
+        rel="noreferrer"
+        href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy/Proxy/set"
+        >updated</a
+      >,
+      <a
+        target="_blank"
+        rel="noreferrer"
+        href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy/Proxy/deleteProperty"
+        >deleted</a
+      >, etc.
+    </p>
+    <p>
+      Now that we have the ability to listen to listen to operations, we need to
+      <em>react</em> to them in a meaningful way.
+    </p>
+    <h3 id="updating-the-ui">Updating the UI</h3>
+    <p>
+      If you recall, The second part of <em>reactivity</em> was
+      <em>update the UI automatically</em>. For this we need to fetch the
+      <em>appropriate</em> UI element to be updated. But before that that we
+      need to first mark a UI element as <em>appropriate</em>.
+    </p>
+    <p>
+      To do this we’ll use
+      <a
+        target="_blank"
+        rel="noreferrer"
+        href="https://developer.mozilla.org/en-US/docs/Learn/HTML/Howto/Use_data_attributes"
+        >data-attributes</a
+      >, a feature that allows us to set arbitrary values on an element:
+    </p>
+    <div class="sourceCode" id="cb7">
+      <pre
+        class="sourceCode html"
+      ><code class="sourceCode html"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;div&gt;</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">&lt;!-- Mark the h1 as appropriate for when &quot;name&quot; changes --&gt;</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;h1</span> <span class="er">data-mark</span><span class="ot">=</span><span class="st">&quot;name&quot;</span><span class="kw">&gt;&lt;/h1&gt;</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/div&gt;</span></span></code></pre>
+    </div>
+    <p>
+      The nicety of data-attributes are that we can now find all the
+      <em>appropriate</em> elements using:
+    </p>
+    <div class="sourceCode" id="cb8">
+      <pre
+        class="sourceCode javascript"
+      ><code class="sourceCode javascript"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="bu">document</span><span class="op">.</span><span class="fu">querySelectorAll</span>(<span class="st">&#39;[data-mark=&quot;name&quot;]&#39;</span>)<span class="op">;</span></span></code></pre>
+    </div>
+    <p>
+      Now we just set the <code>innerText</code> of all the
+      <em>appropriate elements</em>:
+    </p>
+    <div class="sourceCode" id="cb9">
+      <pre
+        class="sourceCode javascript"
+      ><code class="sourceCode javascript"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> handler <span class="op">=</span> {</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">set</span>(user<span class="op">,</span> value<span class="op">,</span> property) {</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> query <span class="op">=</span> <span class="vs">`[data-mark=&quot;</span><span class="sc">${</span>property<span class="sc">}</span><span class="vs">&quot;]`</span><span class="op">;</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> elements <span class="op">=</span> <span class="bu">document</span><span class="op">.</span><span class="fu">querySelectorAll</span>(query)<span class="op">;</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (<span class="kw">const</span> el <span class="kw">of</span> elements) {</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>      el<span class="op">.</span><span class="at">innerText</span> <span class="op">=</span> value<span class="op">;</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">Reflect</span><span class="op">.</span><span class="fu">set</span>(user<span class="op">,</span> value<span class="op">,</span> property)<span class="op">;</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="co">// Regular object is omitted cause it&#39;s not needed.</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> user <span class="op">=</span> <span class="kw">new</span> <span class="bu">Proxy</span>({ <span class="dt">name</span><span class="op">:</span> <span class="st">&#39;Lin&#39;</span> }<span class="op">,</span> handler)<span class="op">;</span></span></code></pre>
+    </div>
+    <p>That’s it, that’s the crux of reactivity!</p>
+    <p>
+      Because of the general nature of our <code>handler</code>, for
+      <em>any</em> property of <code>user</code> that is set, all the
+      <em>appropriate</em> UI elements will be updated.
+    </p>
+    <p>
+      That’s how powerful the JavaScript <code>Proxy</code> features are, with
+      zero dependencies and some cleverness it can give us these magical
+      <em>reactive</em> objects.
+    </p>
+    <p>Now onto the <em>second main</em> thing…</p>
+    <h2 id="composibility">Composibility</h2>
+    <p>
+      Turns out, browsers already have an entire feature dedicated to this
+      called
+      <a
+        target="_blank"
+        rel="noreferrer"
+        href="https://developer.mozilla.org/en-US/docs/Web/Web_Components"
+        >Web Components</a
+      >, who knew!
+    </p>
+    <p>
+      Few use it cause it’s a bit of a pain in the ass to use (and also because
+      most reach out for the usual frameworks as a default when starting a
+      project, irrespective of the scope).
+    </p>
+    <p>For <em>composability</em> we first need to define the components.</p>
+    <h3 id="defining-components-using-template-and-slot">
+      Defining components using <code>template</code> and <code>slot</code>
+    </h3>
+    <p>
+      The <code>&lt;template&gt;</code> tags are used to contain markup which is
+      not rendered by the browser. For instance, you can add the following
+      markup in your HTML:
+    </p>
+    <div class="sourceCode" id="cb10">
+      <pre
+        class="sourceCode html"
+      ><code class="sourceCode html"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;template&gt;</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;h1&gt;</span>Will not render!<span class="kw">&lt;/h1&gt;</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/template&gt;</span></span></code></pre>
+    </div>
+    <p>
+      and it won’t be rendered. You can think of them as invisible containers
+      for your components.
+    </p>
+    <p>
+      The next building block is the <code>&lt;slot&gt;</code> element which
+      defines where the content of a component will be placed in it. This
+      enables a component to be reused with different content, i.e it becomes
+      <em>composable</em>.
+    </p>
+    <p>For example, here’s an h1 element that colors its text red.</p>
+    <div class="sourceCode" id="cb11">
+      <pre
+        class="sourceCode html"
+      ><code class="sourceCode html"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;template&gt;</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;h1</span> <span class="er">style</span><span class="ot">=</span><span class="st">&quot;color: red&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;slot</span> <span class="kw">/&gt;</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;/h1&gt;</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/template&gt;</span></span></code></pre>
+    </div>
+    <p>
+      Before we get to using our components—like the red h1 above, we need to
+      register them.
+    </p>
+    <h3 id="registering-the-components">Registering the Components</h3>
+    <p>
+      Before we can register our red h1 component, we need a name to register it
+      by. We can just use the <code>name</code> attribute for that:
+    </p>
+    <div class="sourceCode" id="cb12">
+      <pre
+        class="sourceCode html"
+      ><code class="sourceCode html"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;template</span> <span class="er">name</span><span class="ot">=</span><span class="st">&quot;red-h1&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;h1</span> <span class="er">style</span><span class="ot">=</span><span class="st">&quot;color: red&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;slot</span> <span class="kw">/&gt;</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;/h1&gt;</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/template&gt;</span></span></code></pre>
+    </div>
+    <p>And now, using some JavaScript we can get the component and its name:</p>
+    <div class="sourceCode" id="cb13">
+      <pre
+        class="sourceCode javascript"
+      ><code class="sourceCode javascript"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> template <span class="op">=</span> <span class="bu">document</span><span class="op">.</span><span class="fu">getElementsByTagName</span>(<span class="st">&#39;template&#39;</span>)[<span class="dv">0</span>]<span class="op">;</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> componentName <span class="op">=</span> template<span class="op">.</span><span class="fu">getAttribute</span>(<span class="st">&#39;name&#39;</span>)<span class="op">;</span></span></code></pre>
+    </div>
+    <p>
+      and then finally register it using
+      <a
+        target="_blank"
+        rel="noreferrer"
+        href="https://developer.mozilla.org/en-US/docs/Web/API/CustomElementRegistry/define"
+        ><code>customElements.define</code></a
+      >:
+    </p>
+    <div class="sourceCode" id="cb14">
+      <pre
+        class="sourceCode javascript"
+      ><code class="sourceCode javascript"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>customElements<span class="op">.</span><span class="fu">define</span>(</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  componentName<span class="op">,</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">class</span> <span class="kw">extends</span> <span class="bu">HTMLElement</span> {</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">constructor</span>() {</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>      <span class="kw">super</span>()<span class="op">;</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> component <span class="op">=</span> template<span class="op">.</span><span class="at">content</span><span class="op">.</span><span class="at">children</span>[<span class="dv">0</span>]<span class="op">.</span><span class="fu">cloneNode</span>(<span class="kw">true</span>)<span class="op">;</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>      <span class="kw">this</span><span class="op">.</span><span class="fu">attachShadow</span>({ <span class="dt">mode</span><span class="op">:</span> <span class="st">&#39;open&#39;</span> })<span class="op">.</span><span class="fu">appendChild</span>(component)<span class="op">;</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>)<span class="op">;</span></span></code></pre>
+    </div>
+    <p>There is a lot going on in the block above:</p>
+    <ul>
+      <li>
+        We are calling <code>customElements.define</code> with two arguments.
+      </li>
+      <li>
+        First argument is the component name (i.e. <code>"red-h1"</code>).
+      </li>
+      <li>
+        Second argument is a class that defines our custom component as an
+        <code>HTMLElement</code>.
+      </li>
+    </ul>
+    <p>
+      What we are doing in the class constructor is using a copy of the template
+      <code>red-h1</code> to set the shadow DOM tree.
+    </p>
+    <details>
+      <summary>What’s the Shadow DOM?</summary>
+      <p>
+        The shadow DOM is what sets the styling of a several default elements
+        such as a
+        <a
+          target="_blank"
+          rel="noreferrer"
+          href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/range"
+          >range input</a
+        >, or a
+        <a
+          target="_blank"
+          rel="noreferrer"
+          href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/video"
+          >video element</a
+        >.
+      </p>
+      <p>
+        The shadow DOM of an element is hidden by default which is why we can’t
+        see it in the dev console, but here’re we’re setting the
+        <code>mode</code> to <code>'open'</code>.
+      </p>
+      <p>
+        This allows us to inspect element and see that the red colored h1 is
+        attached to the
+        <a
+          target="_blank"
+          rel="noreferrer"
+          href="https://developer.mozilla.org/en-US/docs/Web/API/ShadowRoot"
+          ><code>#shadow-root</code></a
+        >.
+      </p>
+    </details>
+    <p>
+      Calling <code>customElements.define</code> will allow us to use the
+      defined component like a regular HTML element.
+    </p>
+    <div class="sourceCode" id="cb15">
+      <pre
+        class="sourceCode html"
+      ><code class="sourceCode html"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;red-h1&gt;</span>This will render in red!<span class="kw">&lt;/red-h1&gt;</span></span></code></pre>
+    </div>
+    <p>Onto putting these two concepts together!</p>
+    <h2 id="composability-reactivity">Composability + Reactivity</h2>
+    <p>A quick recap, we did two things:</p>
+    <ol type="1">
+      <li>
+        We created a reactive data structure i.e. the <em>proxy objects</em>
+        which on setting a value can update any element we have marked as
+        <em>appropriate</em>.
+      </li>
+      <li>
+        We defined a custom component <code>red-h1</code> which will render it’s
+        content as a red h1.
+      </li>
+    </ol>
+    <p>We can now put them both together:</p>
+    <div class="sourceCode" id="cb16">
+      <pre
+        class="sourceCode html"
+      ><code class="sourceCode html"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;div&gt;</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;red-h1</span> <span class="er">data-mark</span><span class="ot">=</span><span class="st">&quot;name&quot;</span><span class="kw">&gt;&lt;/red-h1&gt;</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/div&gt;</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;script&gt;</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> user <span class="op">=</span> <span class="kw">new</span> <span class="bu">Proxy</span>({}<span class="op">,</span> handler)<span class="op">;</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  user<span class="op">.</span><span class="at">name</span> <span class="op">=</span> <span class="st">&#39;Lin&#39;</span><span class="op">;</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/script&gt;</span></span></code></pre>
+    </div>
+    <p>
+      and have a custom component render our data and update the UI when we
+      change the data.
+    </p>
+    <hr />
+    <p>
+      Of course the usual frontend frameworks don’t just do this, they have
+      specialized syntax such the
+      <a
+        target="_blank"
+        rel="noreferrer"
+        href="https://vuejs.org/guide/essentials/template-syntax.html"
+        >template syntax</a
+      >
+      in Vue, and
+      <a
+        target="_blank"
+        rel="noreferrer"
+        href="https://react.dev/learn/writing-markup-with-jsx"
+        >JSX</a
+      >
+      in React. Since this is not regular JavaScript or HTML syntax, it is not
+      parsable by a browser and so they all need specialized compilers to
+      compile them down to regular JavaScript, HTML, and CSS before the browser
+      can understand them.
+    </p>
+    <p>
+      But barring specialized syntax, you can do a lot of what a frontend
+      framework does just by using <code>Proxy</code> and
+      <code>WebComponents</code>.
+    </p>
+    <p>
+      The code here is an over simplification and to convert it into a framework
+      you’d have to flesh it out. Here’s my attempt at doing just that: a
+      framework called
+      <a target="_blank" rel="noreferrer" href="https://18alan.space/strawberry"
+        >Strawberry</a
+      >.
+    </p>
+    <p>As I develop this, I plan on maintaining two hard constraints:</p>
+    <ol type="1">
+      <li>No dependencies.</li>
+      <li>No build-step before it can be used.</li>
+    </ol>
+    <p>
+      And a soft constraint of keeping the code base tiny. At the time of
+      writing it’s just a
+      <a
+        target="_blank"
+        rel="noreferrer"
+        href="https://github.com/18alantom/strawberry/blob/52cc4e3c88924d112559d0547c533c1fafa61140/index.ts"
+        >single file</a
+      >
+      with fewer than 400
+      <a
+        target="_blank"
+        rel="noreferrer"
+        href="https://github.com/AlDanial/cloc"
+        >CLOC</a
+      >, let’s see where it goes. ✌️
+    </p>
+  </body>
+</html>

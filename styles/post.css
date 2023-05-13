@@ -1,11 +1,5 @@
 @import url('./common.css');
 
-:root {
-  --heading-filter: saturate(0.5);
-  --mb-common: 1.25rem;
-  --lh-p: calc(var(--fs-base) * 1.65);
-}
-
 h1 {
   color: var(--color-accent);
   font-size: var(--fs-4xl);
@@ -43,8 +37,32 @@ h4 {
 p {
   font-size: var(--fs-base);
   line-height: var(--lh-p);
-  margin-top: 1rem;
+  margin-top: var(--mt-common);
   margin-bottom: var(--mb-common);
+}
+
+time {
+  display: block;
+  color: var(--color-accent-dark);
+  font-size: var(--fs-sm);
+  margin-top: var(--mt-common);
+  margin-bottom: var(--mb-common);
+}
+
+p > code {
+  padding: 0 0.25rem;
+  color: var(--color-accent-light);
+
+  border: var(--border);
+  background-color: var(--color-bg-light);
+}
+
+li {
+  line-height: var(--lh-p);
+}
+
+li:first-child {
+  margin-top: calc(-1 * var(--mb-common));
 }
 
 em,
@@ -95,13 +113,51 @@ hr:after {
   color: var(--color-accent-dark);
 }
 
+details,
 pre {
   width: 100%;
   margin: var(--spacing) 0px;
+  font-size: var(--fs-sm);
   background-color: var(--color-bg-light);
   padding: calc(var(--spacing) / 2);
   box-sizing: border-box;
+
+  border: var(--border);
   box-shadow: var(--shadow-md);
+  overflow: auto;
+}
+
+details > summary {
+  cursor: pointer;
+  font-weight: 700;
+  transition: color 150ms var(--trans-func);
+}
+
+details > summary:hover {
+  color: var(--color-accent-light);
+}
+
+details > *:nth-child(2) {
+  padding-top: var(--mt-common);
+  border-top: 1px solid var(--color-border);
+}
+
+details > *:last-child {
+  margin-bottom: 0;
+}
+
+blockquote {
+  padding: calc(var(--spacing) / 4);
+  border-left: 4px solid var(--color-accent-dark);
+  background-color: var(--color-bg-light);
+}
+
+blockquote > p:first-child {
+  margin-top: 0rem;
+}
+
+blockquote > p:last-child {
+  margin-bottom: 0rem;
 }
 
 /* Hover Tooltip Button Element */
@@ -167,4 +223,40 @@ pre {
   opacity: 1;
   top: calc(var(--spacing) * -0.5);
   box-shadow: var(--shadow-lg);
+}
+
+/* Copy Element */
+
+pre.sourceCode {
+  position: relative;
+  cursor: pointer;
+}
+
+pre.sourceCode:hover:before {
+  content: attr(data-copy);
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0.125rem 0.25rem;
+  color: var(--color-accent-dark);
+}
+
+/* Copy Header Link */
+
+h1,
+h2,
+h3 {
+  cursor: pointer;
+}
+
+h1:hover:after,
+h2:hover:after,
+h3:hover:after {
+  font-family: 'Fira Code', monospace;
+  content: '#';
+  line-height: 0;
+  font-weight: 400;
+  margin-left: 0.2rem;
+  color: var(--color-accent-light);
+  cursor: pointer;
 }
