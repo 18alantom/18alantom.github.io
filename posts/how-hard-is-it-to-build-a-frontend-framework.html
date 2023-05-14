@@ -11,7 +11,10 @@
     <link rel="icon" href="../assets/logo.png" type="image/x-icon" />
     <script src="../scripts/posts.js"></script>
 
-    <title>How hard is it to build a frontend framework?</title>
+    <title>
+      Building a Frontend Framework; Reactivity and Composability With Zero
+      Dependencies
+    </title>
   </head>
   <body>
     <nav id="nav">
@@ -20,7 +23,8 @@
       <img src="../assets/logo.png" />
     </nav>
     <h1 id="how-hard-is-it-to-build-a-frontend-framework">
-      How hard is it to build a frontend framework?
+      Building a Frontend Framework; Reactivity and Composability With Zero
+      Dependencies
     </h1>
     <time datetime="2023-05-13">13th May, 2023</time>
     <p>
@@ -83,7 +87,7 @@
       <p>Reactivity ✨</p>
     </blockquote>
     <p>
-      The <em>first main</em> reason is that in the second and third examples,
+      The <em>first main</em> reason is that, in the second and third examples,
       we can just set or update the value of the variable
       <code>coolPara</code> and the markup—i.e. the <code>&lt;p&gt;</code>
       element—is updated without without explicitly having to set its
@@ -119,14 +123,14 @@
 <span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;cool-para&gt;</span>Lorem ipsum.<span class="kw">&lt;/cool-para&gt;</span></span></code></pre>
     </div>
     <p>
-      And these are the two main things the usual frontend frameworks such as
-      Vue, React, etc give us.
+      Reactivity and composability are the two main things the usual frontend
+      frameworks such as Vue, React, etc give us.
     </p>
     <p>
       These abstractions aren’t granted for free, one has to front-load a bunch
       of framework specific concepts, deal with their leakiness when things work
-      in magical ways, and not to mention, a whole load of failure-prone
-      dependencies.
+      in inexplicably magical ways, and not to mention, a whole load of
+      failure-prone dependencies.
     </p>
     <p>
       But, it turns out that using modern Web APIs these two things aren’t very
@@ -163,7 +167,7 @@
       <pre
         class="sourceCode javascript"
       ><code class="sourceCode javascript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> user <span class="op">=</span> { <span class="dt">name</span><span class="op">:</span> <span class="st">&#39;Lin&#39;</span> }<span class="op">;</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> proxy <span class="op">=</span> <span class="kw">new</span> <span class="bu">Proxy</span>(user)<span class="op">;</span></span></code></pre>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> proxy <span class="op">=</span> <span class="kw">new</span> <span class="bu">Proxy</span>(user, {})<span class="op">;</span></span></code></pre>
     </div>
     <p>
       and this <em>proxy object</em> can then listen to changes to the data.
@@ -530,15 +534,27 @@
         href="https://react.dev/learn/writing-markup-with-jsx"
         >JSX</a
       >
-      in React. Since this is not regular JavaScript or HTML syntax, it is not
-      parsable by a browser and so they all need specialized compilers to
-      compile them down to regular JavaScript, HTML, and CSS before the browser
-      can understand them.
+      in React that makes writing complex frontends relatively more concise that
+      it otherwise would be.
     </p>
     <p>
-      But barring specialized syntax, you can do a lot of what a frontend
-      framework does just by using <code>Proxy</code> and
-      <code>WebComponents</code>.
+      Since this specialized syntax is not regular JavaScript or HTML, it is not
+      parsable by a browser and so they all need specialized tools to compile
+      them down to regular JavaScript, HTML, and CSS before the browser can
+      understand them. And so,
+      <em
+        ><a
+          target="_blank"
+          rel="noreferrer"
+          href="https://fly.io/blog/js-ecosystem-delightfully-wierd#nobody-writes-javascript-any-more"
+          >no body writes JavaScript any more</a
+        ></em
+      >.
+    </p>
+    <p>
+      Even without specialized syntax, you can do a lot of what the usual
+      frontend framework does—with similar conciseness—just by using
+      <code>Proxy</code> and <code>WebComponents</code>.
     </p>
     <p>
       The code here is an over simplification and to convert it into a framework

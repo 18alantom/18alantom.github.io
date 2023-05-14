@@ -56,6 +56,15 @@ section {
   border-bottom: none;
 }
 
+#posts h2 {
+  transition: color 150ms var(--trans-func);
+  color: var(--color-accent-light);
+}
+
+#posts > a:hover > h2 {
+  color: var(--color-accent);
+}
+
 #posts > a:hover {
   color: var(--color-accent-light);
 }
