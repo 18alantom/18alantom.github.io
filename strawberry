@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#1f1b22" />
+
+    <!-- Add Redirect to Strawberry -->
+    <meta http-equiv="refresh" content="0;https://strawberry.quest" />
+
+    <!-- Loading Stylesheets and Icon -->
+    <link rel="stylesheet" href="./styles/index.css" />
+    <link rel="icon" href="./assets/logo.png" type="image/x-icon" />
+
+    <title>Alan's Space</title>
+  </head>
+  <body>
+    <main>
+      <header>
+        <!-- <div>banner div</div> -->
+        <h1>Hi, I'm Alan</h1>
+        <p style="margin-bottom: var(--mb-common)">
+          Strawberry has been moved to
+          <a href="https://strawberry.quest">strawberry.quest</a>.
+        </p>
+        <p style="margin-bottom: var(--mb-common)">
+          This is cause Strawberry Quest sounds cool, and Strawberry is in a
+          some sense a <em>quest</em> to rid the frontend of wanton
+          dependencies.
+        </p>
+
+        <p>
+          But more importantly, it is because I don't have thousands of dollars
+          lying around to spend on domain names.
+        </p>
+      </header>
+    </main>
+  </body>
+</html>
