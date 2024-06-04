@@ -34,7 +34,7 @@ const posts = [
     description:
       "Doing a complete rewrite of Frappe Books has been on my mind for around a month, so I thought I'd give it a shot.",
     external: 'Frappe Books Tech Blog',
-    link: 'https://tech.frappebooks.com/complete_rewrite',
+    link: '/frappebooks_tech/complete_rewrite',
   },
   {
     title: 'Enabling Translations',
@@ -42,7 +42,7 @@ const posts = [
     description:
       "Not everyone knows English, and it is generally the least favorite language of polyglots (don't quote me on this). Suffice to say translations are important.",
     external: 'Frappe Books Tech Blog',
-    link: 'https://tech.frappebooks.com/enabling_translations',
+    link: '/frappebooks_tech/enabling_translations',
   },
   {
     title: 'Refactoring Charts',
@@ -50,7 +50,7 @@ const posts = [
     description:
       'I had to rewrite the charts in Frappe Books. This seemed like the only option. Well almost.',
     external: 'Frappe Books Tech Blog',
-    link: 'https://tech.frappebooks.com/refactoring_charts',
+    link: '/frappebooks_tech/refactoring_charts',
   },
   {
     title: 'Mumbai University, Everyone Cheated',
