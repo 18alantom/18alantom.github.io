@@ -1,28 +1,14 @@
 @import url('./fonts/fonts.css');
 
 :root {
-  /* Dark Colors */
-  --color-accent-light: hsl(270, 85%, 90%);
-  --color-accent: hsl(270, 65%, 75%);
-  --color-accent-dark: hsl(270, 35%, 70%);
-
-  --color-bg-light: hsl(270, 20%, 18%);
-  --color-bg: hsl(270, 11%, 12%);
-  --color-bg-dark: hsl(270, 80%, 5%);
-
-  --color-text: hsl(264, 15%, 87%);
-  --color-link: var(--color-accent-light);
-  --color-border: hsl(270, 15%, 25%);
-
   --opacity-text: 0.8;
   --width-main: 100vw;
   --spacing: 1.5rem;
 
   --trans-func: cubic-bezier(0.4, 0, 0.2, 1);
-
-  --shadow-md: 0px 4px 20px hsla(270, 8%, 5%, 0.9);
-  --shadow-lg: 0px 12px 40px hsla(270, 8%, 5%, 0.9),
-    0px -12px 20px hsl(263, 11%, 15%, 0.6);
+  --trans-color: color 150ms var(--trans-func),
+    border-color 150ms var(--trans-func), box-shadow 150ms var(--trans-func),
+    background-color 150ms var(--trans-func);
 
   /* Font Sizes */
   --fs-4xl: 2.25rem;
@@ -43,31 +29,44 @@
 }
 
 [data-theme='light'] {
-  /* Light Colors */
-  --color-accent-light: hsl(270, 85%, 40%);
-  --color-accent: hsl(270, 65%, 50%);
-  --color-accent-dark: hsl(270, 35%, 60%);
-
-  --color-bg-light: hsl(270, 20%, 95%);
-  --color-bg: hsl(270, 11%, 98%);
-  --color-bg-dark: hsl(270, 80%, 100%);
-
+  --color-heading: hsl(280, 6%, 29%);
   --color-text: hsl(264, 15%, 20%);
-  --color-link: var(--color-accent);
-  --color-border: hsl(270, 15%, 75%);
 
-  --shadow-md: 0px 4px 20px hsla(270, 8%, 50%, 0.9);
-  --shadow-lg: 0px 12px 40px hsla(270, 8%, 50%, 0.9),
-    0px -12px 20px hsl(263, 11%, 85%, 0.6);
+  --color-accent-light: hsl(266, 4%, 56%);
+  --color-accent: hsl(263, 3%, 46%);
+
+  --color-bg-light: hsl(60, 9%, 100%);
+  --color-bg: hsl(60, 9%, 99%);
+
+  --color-border: hsl(265, 17%, 86%);
+
+  --shadow-md: 0 3px 12px rgba(0, 0, 0, 0.03), 0 0px 10px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 19px 38px rgba(0, 0, 0, 0.15), 0 15px 12px rgba(0, 0, 0, 0.11);
+}
+
+[data-theme='dark'] {
+  --color-heading: hsl(270, 65%, 75%);
+  --color-text: hsl(264, 15%, 87%);
+
+  --color-accent-light: hsl(270, 85%, 90%);
+  --color-accent: hsl(270, 65%, 75%);
+
+  --color-bg-light: hsl(270, 20%, 18%);
+  --color-bg: hsl(270, 11%, 12%);
+
+  --color-border: hsl(270, 15%, 25%);
+
+  --shadow-md: 0px 4px 20px hsla(270, 8%, 5%, 0.9);
+  --shadow-lg: 0px 12px 40px hsla(270, 8%, 5%, 0.9),
+    0px -12px 20px hsl(263, 11%, 15%, 0.6);
 }
 
 * {
   margin: 0px;
-  outline: var(--color-accent);
 }
 
-*:focus {
-  filter: brightness(1.25) saturate(1.25);
+*:focus-visible {
+  outline: 1px solid var(--color-accent);
 }
 
 html {
@@ -78,6 +77,15 @@ html {
   scroll-behavior: smooth;
 }
 
+html,
+code,
+blockquote,
+pre,
+details,
+a {
+  transition: var(--trans-color);
+}
+
 pre,
 code {
   font-family: 'Fira Code', monospace;
@@ -86,8 +94,6 @@ code {
 a {
   text-decoration: none;
   color: inherit;
-  transition: color 150ms var(--trans-func),
-    border-color 150ms var(--trans-func);
   border-bottom: 2px solid var(--color-text);
 }
 
@@ -118,6 +124,8 @@ nav {
   z-index: 10;
 
   background-color: var(--color-bg);
+  transition: color 150ms var(--trans-func),
+    background-color 150ms var(--trans-func);
 
   font-size: var(--fs-sm);
   letter-spacing: 2px;
@@ -131,8 +139,12 @@ nav {
 
 nav > a {
   border-bottom: none;
-  color: var(--color-accent-dark);
+  color: var(--color-text);
   transition: color 150ms var(--trans-func);
+}
+
+nav > a:hover {
+  color: var(--color-accent);
 }
 
 nav > button {
@@ -145,6 +157,7 @@ nav > button {
   justify-content: center;
   border: none;
   cursor: pointer;
+  border-radius: 100px;
 }
 
 nav img {
@@ -152,8 +165,12 @@ nav img {
   height: var(--fs-sm);
 }
 
-nav > a:hover {
-  color: var(--color-accent);
+nav > button:focus {
+  filter: none;
+}
+
+[data-theme='light'] nav img {
+  filter: brightness(0.75) saturate(0);
 }
 
 @media only screen and (min-width: 664px) {

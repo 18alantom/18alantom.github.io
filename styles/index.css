@@ -6,15 +6,8 @@ header {
   padding: var(--spacing) 0 calc(var(--spacing) / 2) 0;
 }
 
-header > div {
-  width: 100%;
-  height: 100%;
-  background-color: var(--color-bg-light);
-  box-shadow: var(--shadow-md);
-}
-
 header > h1 {
-  color: var(--color-accent);
+  color: var(--color-heading);
   font-size: var(--fs-4xl);
   margin: var(--spacing) 0 calc(var(--spacing) / 4) 0;
 }
@@ -52,7 +45,7 @@ section {
 
 #posts h2 {
   transition: color 150ms var(--trans-func);
-  color: var(--color-accent-light);
+  color: var(--color-heading);
 }
 
 #posts > a:hover > h2 {
@@ -60,7 +53,7 @@ section {
 }
 
 #posts > a:hover {
-  color: var(--color-accent-light);
+  color: var(--color-accent);
 }
 
 .title {
