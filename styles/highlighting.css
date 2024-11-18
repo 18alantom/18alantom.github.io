@@ -15,6 +15,17 @@ pre {
   --color-punctuation: hsl(270, 10%, 70%);
 }
 
+[data-theme='light'] pre {
+  --color-code: hsl(0, 0%, 10%);
+  --color-keyword: hsl(0, 85%, 40%);
+  --color-properties: hsl(0, 60%, 43%);
+  --color-primitives: hsl(0, 22%, 48%);
+  --color-builtins: hsl(0, 85%, 50%);
+  --color-controlflow: hsl(0, 85%, 45%);
+  --color-comments: hsl(0, 15%, 30%);
+  --color-punctuation: hsl(0, 10%, 40%);
+}
+
 pre code {
   color: var(--color-code);
 }

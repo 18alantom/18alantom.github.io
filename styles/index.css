@@ -4,7 +4,6 @@ header {
   display: flex;
   flex-direction: column;
   padding: var(--spacing) 0 calc(var(--spacing) / 2) 0;
-  /* height: 50vh; */
 }
 
 header > div {
@@ -12,11 +11,6 @@ header > div {
   height: 100%;
   background-color: var(--color-bg-light);
   box-shadow: var(--shadow-md);
-  background: radial-gradient(
-    132% 132% at 37.5% 125%,
-    #1f182685 15.73%,
-    #5b3d7987 100%
-  );
 }
 
 header > h1 {

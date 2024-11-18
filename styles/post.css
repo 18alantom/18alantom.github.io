@@ -84,6 +84,10 @@ img {
   box-shadow: var(--shadow-md);
 }
 
+nav img {
+  box-shadow: none;
+}
+
 figcaption {
   width: 100%;
   text-align: center;
