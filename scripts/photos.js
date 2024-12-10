@@ -31,6 +31,10 @@ function init() {
 }
 
 function handleKeydown(e) {
+  if (e.shiftKey || e.metaKey || e.altKey) {
+    return;
+  }
+
   switch (e.key) {
     case 'Escape':
     case 'q':
@@ -49,8 +53,6 @@ function handleKeydown(e) {
     case 'i':
       toggleInfo();
       break;
-    default:
-      handled = false;
   }
 }
 
