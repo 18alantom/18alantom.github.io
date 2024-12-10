@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Loading Stylesheets and Icon -->
+  <link rel="stylesheet" href="./styles/common.css" />
+  <link rel="icon" href="./assets/logo.png" type="image/x-icon" />
+  <script src="./scripts/theme.js" type="text/javascript"></script>
+
+  <title>Photo's From Alan's Space</title>
+  <style>
+    :root {
+      --info-grid-area:
+        "title"
+        "gear"
+        "settings"
+        "file"
+      ;
+    }
+
+    [data-theme='light'] {
+      --color-bg-dialog: white;
+    }
+
+    [data-theme='dark'] {
+      --color-bg-dialog: black;
+    }
+
+    @media only screen and (min-width: 961px) {
+      :root {
+        --info-grid-area:
+          "title gear settings file"
+        ;
+      }
+    }
+
+
+    .gallery {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: var(--lr-spacing);
+      margin-bottom: var(--spacing);
+
+      &:last-child {
+        margin-bottom: 40vh;
+      }
+
+      h1.gallery-title {
+        color: var(--color-heading);
+        grid-column: 1 / -1;
+
+        time {
+          font-size: 0.75rem;
+          margin-left: 0.5rem;
+        }
+      }
+
+      .container {
+        position: relative;
+        background-repeat: no-repeat;
+        background-size: cover;
+
+        cursor: pointer;
+
+        img.thumbnail {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+
+          opacity: 0;
+          transition: opacity 0.2s ease-in;
+
+          &.loaded {
+            opacity: 1;
+          }
+        }
+      }
+    }
+
+    dialog {
+      width: 100vw;
+      height: 100vh;
+      top: 0;
+      left: 0;
+      border: 0;
+      z-index: 100;
+      padding: 0;
+      color: var(--color-text);
+      background-color: var(--color-bg-dialog);
+      overflow: scroll;
+    }
+
+    div.fullview-outer {
+      min-height: 100vh;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      div#fullview-inner {
+        padding: var(--lr-spacing);
+
+        div#fullview-container {
+          position: relative;
+          background-repeat: no-repeat;
+          background-size: cover;
+          width: 100%;
+
+          img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+
+            &#fullview-placeholder {
+              height: 100%;
+              object-fit: contain;
+            }
+
+            &#fullview-image {
+              object-fit: contain;
+
+              opacity: 0;
+              transition: opacity 0.2s ease-in;
+
+              &.loaded {
+                opacity: 1;
+              }
+            }
+          }
+        }
+
+
+        div.caption {
+          margin-top: var(--lr-spacing);
+          display: flex;
+          align-items: baseline;
+          justify-content: space-between;
+
+          h1 {
+            margin-top: -0.2rem;
+            font-size: var(--fs-sm);
+          }
+
+          div.buttons {
+            display: flex;
+            gap: calc(var(--spacing) / 4);
+
+            margin: 0;
+            margin-left: auto;
+            padding: 0;
+            line-height: 1;
+
+            button {
+              color: var(--color-text);
+              font-size: var(--fs-xs);
+              letter-spacing: 2px;
+              border: 1px solid black;
+
+              background: transparent;
+              padding: 0;
+              margin: 0;
+              border: none;
+              cursor: pointer;
+            }
+          }
+        }
+      }
+
+      div#info {
+        display: grid;
+        grid-template-areas: var(--info-grid-area);
+        gap: calc(var(--spacing) / 2);
+
+        margin-top: var(--lr-spacing);
+        padding-bottom: calc(var(--lr-spacing) - 0.2rem);
+        border-bottom: 1px solid var(--color-border);
+
+        h1,
+        h2,
+        time {
+          font-size: var(--fs-xs);
+        }
+
+        h1#info-title,
+        p {
+          font-size: var(--fs-sm);
+        }
+
+        h1#info-album {
+          font-size: var(--fs-xs);
+          line-height: 1;
+        }
+
+        h1#info-title {
+          margin-top: -0.2rem;
+        }
+
+        h2 {
+          color: var(--color-heading);
+          margin-bottom: 0.1rem;
+          font-weight: normal;
+          font-style: italic;
+          letter-spacing: 2px;
+        }
+
+        div.settings,
+        div.filedata>div {
+          display: flex;
+          gap: calc(var(--spacing) / 3);
+        }
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <nav id="nav">
+    <a href="./">home</a>
+    <a href="https://unsplash.com/@18alan" target="_blank"
+      rel="noreferrer">other</a>
+    <a href="about.html">about</a>
+    <button id="toggle-theme" title="Toggle theme">
+      <img src="assets/logo.png" />
+    </button>
+  </nav>
+
+  <dialog id="fullview">
+    <div class="fullview-outer">
+      <div id="fullview-inner">
+        <div id="fullview-container"></div>
+
+        <div id="info">
+          <div>
+            <h1 id="info-title"></h1>
+            <h1 id="info-album"></h1>
+            <time title="Capture datetime" id="info-time"></time>
+          </div>
+
+          <div>
+            <h2>gear</h2>
+            <div class="gear">
+              <p title="Camera" id="info-camera"></p>
+              <p title="Lens" id="info-lens"></p>
+            </div>
+          </div>
+
+          <div>
+            <h2>settings</h2>
+            <div class="settings">
+              <p title="ISO" id="info-iso"></p>
+              <p title="F Stop" id="info-fstop"></p>
+              <p title="Shutter Speed" id="info-shutter"></p>
+            </div>
+            <p title="Focal Length" id="info-focal"></p>
+            <!-- <p title="Exposure Program" id="info-program"></p> -->
+          </div>
+
+          <div>
+            <h2>file</h2>
+            <div class="filedata">
+              <p title="Filename" id="info-filename"></p>
+              <div>
+                <p title="Megapixels" id="info-mpix"></p>
+                <p title="Resolution" id="info-resolution"></p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="caption">
+          <h1 id="fullview-title"></h1>
+          <div class="buttons">
+            <button id="prev-button">prev</button>
+            <button id="next-button">next</button>
+            <p style="color:var(--color-border)">·</p>
+            <button id="info-button">info</button>
+            <button id="close-button">close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </dialog>
+</body>
+<script src="./scripts/photos.js" type="text/javascript"></script>
+
+</html>
+</div>

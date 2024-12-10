@@ -26,6 +26,7 @@ section {
   display: flex;
   flex-direction: column;
   gap: var(--spacing);
+  margin-bottom: 30vh;
 }
 
 #posts::-webkit-scrollbar {

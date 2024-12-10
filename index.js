@@ -96,8 +96,11 @@ function getSlugFromTitle(title) {
 }
 
 function formatDate(date) {
-  // '1995-01-21' -> 'Jan 21 1995'
-  return new Date(date).toDateString().split(' ').slice(1).join(' ');
+  // '1995-01-21' -> 'Jan 21, 1995'
+  let [month, day, year] = new Date(date).toDateString().split(' ').slice(1);
+  if (day.startsWith('0')) day = day.slice(1);
+
+  return `${month} ${day}, ${year}`;
 }
 
 function replaceSlot(element, name, value) {

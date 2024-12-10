@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
   setClickCodeToCopy();
-  setClickLogoToScrollToTop();
   setClickHeadingCopyAndSetIdLink();
 });
 
@@ -24,16 +23,6 @@ function setClickCodeToCopy() {
       }
     });
   }
-}
-
-// Click logo to scroll to the top.
-function setClickLogoToScrollToTop() {
-  document.querySelector('nav > img')?.addEventListener('click', () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    });
-  });
 }
 
 // Click to copy and set id link.

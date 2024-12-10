@@ -4,6 +4,7 @@
   --opacity-text: 0.8;
   --width-main: 100vw;
   --spacing: 1.5rem;
+  --lr-spacing: calc(var(--spacing) / 4);
 
   --trans-func: cubic-bezier(0.4, 0, 0.2, 1);
   --trans-color: color 150ms var(--trans-func),
@@ -109,13 +110,12 @@ body {
   height: fit-content;
   box-sizing: border-box;
   margin: 0px auto;
-  padding: 0px var(--spacing);
+  padding: 0px var(--lr-spacing);
 }
 
 nav {
   position: sticky;
   top: 0rem;
-  padding: calc(var(--spacing) / 2) 0;
   overflow: hidden;
 
   display: flex;
@@ -130,11 +130,8 @@ nav {
   font-size: var(--fs-sm);
   letter-spacing: 2px;
 
-  margin-left: calc(-1 * var(--spacing));
-  padding-left: var(--spacing);
-
-  margin-right: calc(-1 * var(--spacing));
-  padding-right: var(--spacing);
+  margin: 0 calc(-1 * var(--lr-spacing));
+  padding: calc(var(--spacing) / 3) var(--lr-spacing);
 }
 
 nav > a {
