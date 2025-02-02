@@ -65,8 +65,7 @@ li:first-child {
   margin-top: calc(-1 * var(--mb-common));
 }
 
-em,
-strong {
+em {
   color: var(--color-accent-light);
 }
 
