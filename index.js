@@ -1,5 +1,13 @@
 const posts = [
   {
+    title: 'CODE_READABILITY.md',
+    date: '2024-07-05',
+    description:
+      "A document on code quality and readability inspired by the bad practices and frustrating code I've encountered recently",
+    external: 'GitHub Gist',
+    link: 'https://gist.github.com/18alantom/d9f0565c0f42d6a71311d4a3093a1331',
+  },
+  {
     title:
       'Building a Frontend Framework; Reactivity and Composability With Zero Dependencies',
     date: '2023-05-13',
