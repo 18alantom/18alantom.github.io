@@ -9,7 +9,7 @@ header {
 header > h1 {
   color: var(--color-heading);
   font-size: var(--fs-4xl);
-  margin: var(--spacing) 0 calc(var(--spacing) / 4) 0;
+  line-height: 1;
 }
 
 header > p {

@@ -1,10 +1,32 @@
 const posts = [
   {
+    title: 'Untitled I',
+    date: '2024-11-23',
+    description: 'Three photos from a walk near my house',
+    location: '/photos',
+    link: '/photos.html?album=untitled_I',
+  },
+  {
+    title: 'Clouds',
+    date: '2024-09-06',
+    description:
+      'Mostly monochromatic but differently done shots of clouds from a window seat',
+    location: '/photos',
+    link: '/photos.html?album=clouds',
+  },
+  {
+    title: 'Ladakh',
+    date: '2024-08-31',
+    description: 'Photos from a miserably fantastic trip to Ladakh',
+    location: '/photos',
+    link: '/photos.html?album=ladakh',
+  },
+  {
     title: 'CODE_READABILITY.md',
     date: '2024-07-05',
     description:
       "A document on code quality and readability inspired by the frustrating code I've encountered recently",
-    external: 'GitHub Gist',
+    location: 'GitHub Gist',
     link: 'https://gist.github.com/18alantom/d9f0565c0f42d6a71311d4a3093a1331',
   },
   {
@@ -41,7 +63,7 @@ const posts = [
     date: '2022-03-08',
     description:
       "Doing a complete rewrite of Frappe Books has been on my mind for around a month, so I thought I'd give it a shot.",
-    external: 'Frappe Books Tech Blog',
+    location: 'Frappe Books Tech Blog',
     link: '/frappebooks_tech/complete_rewrite',
   },
   {
@@ -49,7 +71,7 @@ const posts = [
     date: '2022-02-17',
     description:
       "Not everyone knows English, and it is generally the least favorite language of polyglots (don't quote me on this). Suffice to say translations are important.",
-    external: 'Frappe Books Tech Blog',
+    location: 'Frappe Books Tech Blog',
     link: '/frappebooks_tech/enabling_translations',
   },
   {
@@ -57,7 +79,7 @@ const posts = [
     date: '2022-02-08',
     description:
       'I had to rewrite the charts in Frappe Books. This seemed like the only option. Well almost.',
-    external: 'Frappe Books Tech Blog',
+    location: 'Frappe Books Tech Blog',
     link: '/frappebooks_tech/refactoring_charts',
   },
   {
@@ -65,7 +87,7 @@ const posts = [
     description:
       'The plot in the banner image of this post shows two histograms. These histograms substantiate the claim in the title.',
     date: '2021-06-21',
-    external: 'Medium',
+    location: 'Medium',
     link: 'https://18alan.medium.com/mumbai-university-everyone-cheated-83320b8c351a',
   },
   {
@@ -73,7 +95,7 @@ const posts = [
     description:
       'Part of a series of posts on making a synthesizer using Python. This one covers controllers.',
     date: '2021-03-02',
-    external: 'Medium',
+    location: 'Medium',
     link: 'https://python.plainenglish.io/build-your-own-python-synthesizer-part-3-162796b7d351',
   },
   {
@@ -81,7 +103,7 @@ const posts = [
     description:
       'Part of a series of posts on making a synthesizer using Python. This one covers modulators.',
     date: '2021-02-22',
-    external: 'Medium',
+    location: 'Medium',
     link: 'https://python.plainenglish.io/build-your-own-python-synthesizer-part-2-66396f6dad81',
   },
   {
@@ -89,18 +111,41 @@ const posts = [
     description:
       'Part of a series of posts on making a synthesizer using Python. This one covers oscillators.',
     date: '2021-02-17',
-    external: 'Medium',
+    location: 'Medium',
     link: 'https://python.plainenglish.io/making-a-synth-with-python-oscillators-2cb8e68e9c3b',
   },
-].sort((a, b) => new Date(b.date).valueOf() - new Date(a.date).valueOf());
+]
+  .sort((a, b) => new Date(b.date).valueOf() - new Date(a.date).valueOf())
+  .map((p) => formatPost(p));
 
-function getSlugFromTitle(title) {
-  // 'Post Zero, Why?' -> 'post-zero-why'
-  return title
-    .toLowerCase()
-    .replace('-', '')
-    .replace(/\s+/g, '-')
-    .replace(/[^-a-z]+/g, '');
+function formatPost(post) {
+  post.isExternal =
+    post.location !== undefined && !post.location?.startsWith('/');
+
+  post.date = formatDate(post.date);
+  post.description = post.description ?? '';
+  post.location ??= '/posts';
+
+  if (post.location.startsWith('/')) {
+    post.location = `<code>${post.location}</code>`;
+  }
+
+  if (!post.link) {
+    // 'Post Zero, Why?' -> 'post-zero-why'
+    const slug = post.title
+      .toLowerCase()
+      .replace('-', '')
+      .replace(/\s+/g, '-')
+      .replace(/[^-a-z]+/g, '');
+
+    post.link = `posts/${slug}.html`;
+  }
+
+  if (post.link.startsWith('/') && window.location.pathname) {
+    post.link = window.location.pathname + post.link.slice(1);
+  }
+
+  return post;
 }
 
 function formatDate(date) {
@@ -111,87 +156,42 @@ function formatDate(date) {
   return `${month} ${day}, ${year}`;
 }
 
-function replaceSlot(element, name, value) {
-  if (!(element instanceof HTMLElement)) {
-    return;
-  }
+function populatePosts(showExternal) {
+  const postsSection = document.getElementById('posts');
+  const domParser = new DOMParser();
 
-  let query = `slot`;
-  if (name) {
-    query = `slot[name="${name}"]`;
-  }
+  postsSection.innerHTML = '';
+  for (const post of posts) {
+    if (!showExternal && post.isExternal) {
+      continue;
+    }
 
-  const slot = element.querySelector(query);
-  const parentElement = slot?.parentElement;
-  if (!slot || !parentElement) {
-    return;
-  }
+    const post_str = `
+      <a href="${post.link}">
+        <h2 class="title">${post.title}</h2>
+        <div class="date-location">
+          <time>${post.date}</time> · <p>${post.location}</p>
+        </div>
+        <p class="description">${post.description}</p>
+      </a>
+    `.trim();
 
-  parentElement.innerHTML = value;
+    const element = domParser.parseFromString(post_str, 'text/html').body
+      .children[0];
+
+    if (post.isExternal) {
+      element.target = '_blank';
+      element.relList = ['noreferrer', 'noopener'];
+    }
+    postsSection.append(element);
+  }
 }
 
-function getTemplatedElement(templateId, slotContent) {
-  const template = document.getElementById(templateId);
-  if (!(template instanceof HTMLTemplateElement)) {
-    return null;
-  }
+let showExternal = JSON.parse(localStorage.getItem('showExternal') ?? 'true');
+populatePosts(showExternal);
 
-  const element = template.content.cloneNode(true)?.children?.[0];
-  if (!(element instanceof HTMLElement)) {
-    return null;
-  }
-
-  for (const [name, value] of Object.entries(slotContent)) {
-    replaceSlot(element, name, value);
-  }
-
-  return element;
-}
-
-function fixRelative(link) {
-  if (!link.startsWith('/')) {
-    return link;
-  }
-
-  if (window.location.pathname) {
-    return window.location.pathname + link.slice(1);
-  }
-
-  return link;
-}
-
-/*
- * Populates the section#posts element above with
- * a list of posts.
- */
-const postsSection = document.getElementById('posts');
-for (const post of posts) {
-  const slug = getSlugFromTitle(post.title);
-  const link = post.link ?? `posts/${slug}.html`;
-
-  const date = formatDate(post.date);
-
-  const slotContent = {
-    title: post.title,
-    date,
-    description: post.description,
-    location: '<code>/posts</code>',
-  };
-
-  if (post.external) {
-    slotContent.location = post.external;
-  }
-
-  const element = getTemplatedElement('post', slotContent);
-  if (!(element instanceof HTMLAnchorElement)) {
-    continue;
-  }
-
-  element.href = fixRelative(link);
-  if (post.external) {
-    element.target = '_blank';
-    element.relList = ['noreferrer', 'noopener'];
-  }
-
-  postsSection.append(element);
-}
+document.getElementById('external-button').addEventListener('click', () => {
+  showExternal = !showExternal;
+  populatePosts(showExternal);
+  localStorage.setItem('showExternal', showExternal);
+});

@@ -1,6 +1,6 @@
 // TODO: - make control bar sticky on the bottom?
 const docTitle = "Photo's From Alan's Space";
-let dispatchLC = true; //  prevents event dispatch, prevents ∞ recursion
+let dispatchLocationChange = true; //  prevents event dispatch, prevents ∞ recursion
 
 function init() {
   populateGallery();
@@ -19,6 +19,7 @@ function init() {
   document
     .getElementById('info-button')
     ?.addEventListener('click', () => toggleInfo());
+
   // document.getElementById('fullview').addEventListener('touchstart', (e) => {
   //   const x = e.touches.item(0).pageX;
   //   if (!x || e.target instanceof HTMLButtonElement) return;
@@ -28,6 +29,7 @@ function init() {
   registerLocationchangeDispatchers();
   window.addEventListener('locationchange', updateDialog);
   toggleInfo(true);
+  setAllLinkDisplay();
 }
 
 function handleKeydown(e) {
@@ -67,25 +69,29 @@ function registerLocationchangeDispatchers() {
   let oldPushState = history.pushState;
   history.pushState = function pushState() {
     let ret = oldPushState.apply(this, arguments);
-    dispatchLC && window.dispatchEvent(new Event('locationchange'));
+    dispatchLocationChange && window.dispatchEvent(new Event('locationchange'));
     return ret;
   };
 
   let oldReplaceState = history.replaceState;
   history.replaceState = function replaceState() {
     let ret = oldReplaceState.apply(this, arguments);
-    dispatchLC && window.dispatchEvent(new Event('locationchange'));
+    dispatchLocationChange && window.dispatchEvent(new Event('locationchange'));
     return ret;
   };
 
   window.addEventListener('popstate', () => {
-    dispatchLC && window.dispatchEvent(new Event('locationchange'));
+    dispatchLocationChange && window.dispatchEvent(new Event('locationchange'));
   });
 }
 
 function populateGallery() {
   let idx = 0;
+  const albumId = new URL(location).searchParams.get('album');
+
   for (const album of albums) {
+    if (albumId && album.id !== albumId) continue;
+
     // convert image datetimeoriginal to Date, use first as album date
     const albumDatetime = new Date(album.datetime ?? -22118400000);
 
@@ -113,12 +119,23 @@ function populateGallery() {
   }
 }
 
+function setAllLinkDisplay() {
+  const album = new URL(location).searchParams.get('album');
+  const show = !!album;
+
+  const allLink = document.getElementById('all-link');
+  if (show) {
+    allLink.style.display = '';
+  } else {
+    allLink.style.display = 'none';
+  }
+}
+
 function getImg(idx, album, image) {
   const container = document.createElement('div');
   container.dataset.index = idx;
   container.classList.add('container');
-  const id = getImageId(album, image);
-  container.addEventListener('click', () => updateHistory(id));
+  container.addEventListener('click', () => updateHistory(image.id));
 
   container.style.aspectRatio = 4 / 3;
   container.style.backgroundImage = `url('${image.preload}')`;
@@ -136,10 +153,6 @@ function getImg(idx, album, image) {
   return container;
 }
 
-function getImageId(album, image) {
-  return `${album?.id}/${image?.id}`;
-}
-
 function getFullview() {
   const fullview = document.getElementById('fullview');
   if (!(fullview instanceof HTMLDialogElement))
@@ -147,14 +160,25 @@ function getFullview() {
   return fullview;
 }
 
-function updateHistory(id) {
+function updateHistory(image) {
   const url = new URL(location);
-  if (!id) {
-    url.searchParams.delete('id');
-  } else {
-    url.searchParams.set('id', id);
+  const album = url.searchParams.get('album');
+
+  if (!album || !image) {
+    url.searchParams.delete('album');
+    url.searchParams.delete('image');
   }
+
+  if (album) {
+    url.searchParams.set('album', album);
+  }
+
+  if (image) {
+    url.searchParams.set('image', image);
+  }
+
   history.pushState({}, '', url);
+  setAllLinkDisplay();
 }
 
 function updateDialog() {
@@ -277,13 +301,14 @@ function getGearModel(image, isLens) {
 }
 
 function getPicture(getPrev, getNext) {
-  const id = new URL(location).searchParams.get('id');
-  if (!id) return null;
+  const albumId = new URL(location).searchParams.get('album');
+  const imageId = new URL(location).searchParams.get('image');
 
-  const [albumId, imageId] = id.split('/');
+  if (!imageId) return null;
+
   for (const a in albums) {
     let album = albums[a];
-    if (album.id !== albumId) continue;
+    if (albumId && album.id !== albumId) continue;
 
     for (const i in album.images) {
       const image = album.images[i];
@@ -326,15 +351,15 @@ function changeImage(toNext) {
   const pic = getPicture(!toNext, toNext);
   if (!pic) return;
 
-  const id = getImageId(pic.album, pic.image);
-  updateHistory(id);
+  updateHistory(pic.image.id);
 }
 
 function closeFullview() {
-  if (new URL(location).searchParams.get('id')) {
-    dispatchLC = false;
+  if (new URL(location).searchParams.get('image')) {
+    const album = new URL(location).searchParams.get('album');
+    dispatchLocationChange = false;
     updateHistory(null);
-    dispatchLC = true;
+    dispatchLocationChange = true;
   }
 
   document.body.style.overflow = '';

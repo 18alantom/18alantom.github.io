@@ -120,7 +120,7 @@ nav {
 
   display: flex;
   align-items: center;
-  gap: var(--spacing);
+  gap: calc(var(--spacing) / 2);
   z-index: 10;
 
   background-color: var(--color-bg);
