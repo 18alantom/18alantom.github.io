@@ -1,5 +1,6 @@
-// TODO: - make control bar sticky on the bottom?
 const docTitle = "Photo's From Alan's Space";
+const touchStart = { x: 0, y: 0 };
+
 let dispatchLocationChange = true; //  prevents event dispatch, prevents ∞ recursion
 
 function init() {
@@ -28,8 +29,9 @@ function init() {
 
   registerLocationchangeDispatchers();
   window.addEventListener('locationchange', updateDialog);
-  toggleInfo(true);
+  hideInfo();
   setAllLinkDisplay();
+  addGestureListeners();
 }
 
 function handleKeydown(e) {
@@ -366,26 +368,36 @@ function closeFullview() {
   const fullview = getFullview();
   if (fullview.open) fullview.close();
   document.title = docTitle;
-  toggleInfo(true);
+  hideInfo();
   setTheme(); // from theme.js
 }
 
-function toggleInfo(hide) {
-  const fullview = getFullview();
+function toggleInfo() {
+  if (document.getElementById('info').style.display === 'none') {
+    showInfo();
+  } else {
+    hideInfo();
+  }
+}
 
+function showInfo() {
+  const fullview = getFullview();
   const infoDiv = document.getElementById('info');
   const titleH1 = document.getElementById('fullview-title');
-  if (infoDiv.style.display === '' || hide) {
-    titleH1.style.display = '';
-    infoDiv.style.display = 'none';
 
-    fullview.scrollTop = 0;
-  } else if (infoDiv.style.display === 'none') {
-    titleH1.style.display = 'none';
-    infoDiv.style.display = '';
+  titleH1.style.display = 'none';
+  infoDiv.style.display = '';
+  fullview.scrollTop = fullview.scrollHeight;
+}
 
-    fullview.scrollTop = fullview.scrollHeight;
-  }
+function hideInfo() {
+  const fullview = getFullview();
+  const infoDiv = document.getElementById('info');
+  const titleH1 = document.getElementById('fullview-title');
+
+  titleH1.style.display = '';
+  infoDiv.style.display = 'none';
+  fullview.scrollTop = 0;
 }
 
 function formatDate(date, mentionTime) {
@@ -405,6 +417,50 @@ function formatAlbumDate(date) {
   // '1995-01-21' -> 'Jan 1995'
   let [month, _, year] = new Date(date).toDateString().split(' ').slice(1);
   return `${month} ${year}`;
+}
+
+function addGestureListeners() {
+  const isTouchSupported =
+    /Android|iPhone|iPad|Opera Mini/i.test(navigator.userAgent) ||
+    navigator.maxTouchPoints > 0;
+
+  if (!isTouchSupported) return;
+
+  document.addEventListener(
+    'touchstart',
+    (e) => {
+      touchStart.x = e.touches[0].clientX;
+      touchStart.y = e.touches[0].clientY;
+    },
+    false
+  );
+
+  document.addEventListener('touchend', handleTouchEnd, false);
+}
+
+function handleTouchEnd(e) {
+  if (!getFullview().open) return;
+
+  const swipeThreshold = 50;
+  const swipeDistanceX = e.changedTouches[0].clientX - touchStart.x;
+  const swipeDistanceY = e.changedTouches[0].clientY - touchStart.y;
+
+  if (
+    Math.abs(swipeDistanceX) < swipeThreshold &&
+    Math.abs(swipeDistanceY) < swipeThreshold
+  )
+    return;
+
+  const isHorizontal = Math.abs(swipeDistanceX) > Math.abs(swipeDistanceY);
+  if (isHorizontal && swipeDistanceX < 0) {
+    changeImage(true);
+  } else if (isHorizontal && swipeDistanceX > 0) {
+    changeImage(false);
+  } else if (!isHorizontal && swipeDistanceY < 0) {
+    showInfo();
+  } else {
+    hideInfo();
+  }
 }
 
 // prettier-ignore

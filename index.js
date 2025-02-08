@@ -187,7 +187,7 @@ function populatePosts(showExternal) {
   }
 }
 
-let showExternal = JSON.parse(localStorage.getItem('showExternal') ?? 'true');
+let showExternal = JSON.parse(localStorage.getItem('showExternal') ?? 'false');
 populatePosts(showExternal);
 
 document.getElementById('external-button').addEventListener('click', () => {
@@ -195,3 +195,4 @@ document.getElementById('external-button').addEventListener('click', () => {
   populatePosts(showExternal);
   localStorage.setItem('showExternal', showExternal);
 });
+
