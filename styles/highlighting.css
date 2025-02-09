@@ -5,7 +5,7 @@
 */
 
 [data-theme='dark'] pre {
-  --color-code: hsl(270, 2%, 99%);
+  --color-code: hsl(270, 2%, 75%);
   --color-keyword: hsl(270, 85%, 80%);
   --color-properties: hsl(270, 60%, 83%);
   --color-primitives: hsl(273, 22%, 88%);

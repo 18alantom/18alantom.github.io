@@ -187,12 +187,18 @@ function populatePosts(showExternal) {
   }
 }
 
-let showExternal = JSON.parse(localStorage.getItem('showExternal') ?? 'false');
-populatePosts(showExternal);
-
-document.getElementById('external-button').addEventListener('click', () => {
-  showExternal = !showExternal;
+function init() {
+  let showExternal = JSON.parse(localStorage.getItem('showExternal') ?? 'true');
   populatePosts(showExternal);
-  localStorage.setItem('showExternal', showExternal);
-});
 
+  const externalButton = document.getElementById('external-button');
+  externalButton.style.color = showExternal ? 'var(--color-accent)' : '';
+  externalButton.addEventListener('click', () => {
+    showExternal = !showExternal;
+    populatePosts(showExternal);
+    localStorage.setItem('showExternal', showExternal);
+    externalButton.style.color = showExternal ? 'var(--color-accent)' : '';
+  });
+}
+
+init();

@@ -37,18 +37,22 @@
       }
     }
 
-
     .gallery {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
       gap: var(--lr-spacing);
       margin-bottom: var(--spacing);
 
+      &:first-of-type {
+        margin-top: var(--spacing);
+      }
+
       &:last-child {
         margin-bottom: 40vh;
       }
 
       h1.gallery-title {
+        line-height: 1;
         color: var(--color-heading);
         grid-column: 1 / -1;
 
@@ -158,9 +162,9 @@
             line-height: 1;
 
             button {
+              font-family: var(--var-font-mono);
               color: var(--color-text);
               font-size: var(--fs-xs);
-              letter-spacing: 1px;
               border: 1px solid black;
 
               background: transparent;
@@ -203,11 +207,10 @@
         }
 
         h2 {
-          color: var(--color-heading);
           margin-bottom: 0.1rem;
           font-weight: normal;
           font-style: italic;
-          letter-spacing: 1px;
+          letter-spacing: 0.5px;
         }
 
         div.settings,

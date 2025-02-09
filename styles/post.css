@@ -41,7 +41,6 @@ p {
 
 time {
   display: block;
-  color: var(--color-accent);
   font-size: var(--fs-sm);
   margin-top: var(--mt-common);
   margin-bottom: var(--mb-common);
@@ -49,7 +48,6 @@ time {
 
 p > code {
   padding: 0 0.25rem;
-  color: var(--color-accent-light);
 
   border: var(--border);
   background-color: var(--color-bg-light);

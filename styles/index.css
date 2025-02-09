@@ -7,9 +7,10 @@ header {
 }
 
 header > h1 {
-  color: var(--color-heading);
   font-size: var(--fs-4xl);
   line-height: 1;
+  /* prevent nav shadow from leaking over the header */
+  z-index: 11;
 }
 
 header > p {
@@ -58,7 +59,7 @@ section {
 }
 
 .title {
-  font-size: var(--fs-lg);
+  font-size: var(--fs-xl);
 }
 
 .date-location {
