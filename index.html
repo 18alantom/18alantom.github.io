@@ -21,16 +21,15 @@
       <nav id="nav">
         <a href="photos.html">photos</a>
         <a href="about.html">about</a>
-        <a
-          id="external-button"
-          style="cursor: pointer"
-          title="Toggle external posts"
-          >external</a
-        >
         <button id="toggle-theme" title="Toggle theme">
           <img src="./assets/logo.png" />
         </button>
       </nav>
+      <div id="filters">
+        <button data-filter="post" title="Show posts">posts</button>
+        <button data-filter="album" title="Show albums">albums</button>
+        <button data-filter="external" title="Show external">external</button>
+      </div>
       <section id="posts"></section>
       <script src="./index.js" type="text/javascript"></script>
     </main>

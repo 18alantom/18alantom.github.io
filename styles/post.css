@@ -44,6 +44,7 @@ time {
   font-size: var(--fs-sm);
   margin-top: var(--mt-common);
   margin-bottom: var(--mb-common);
+  font-family: var(--var-font-mono);
 }
 
 p > code {

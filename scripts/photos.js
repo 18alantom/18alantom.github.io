@@ -21,12 +21,6 @@ function init() {
     .getElementById('info-button')
     ?.addEventListener('click', () => toggleInfo());
 
-  // document.getElementById('fullview').addEventListener('touchstart', (e) => {
-  //   const x = e.touches.item(0).pageX;
-  //   if (!x || e.target instanceof HTMLButtonElement) return;
-  //   changeImage(x > screen.availWidth / 2);
-  // });
-
   registerLocationchangeDispatchers();
   window.addEventListener('locationchange', updateDialog);
   hideInfo();

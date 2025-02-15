@@ -59,7 +59,7 @@
   --color-bg-light: hsl(270, 4%, 13%);
   --color-bg: hsl(270, 3%, 11%);
 
-  --color-border: hsl(270, 8%, 17%);
+  --color-border: hsl(270, 8%, 25%);
 
   --shadow-md: 0px 2px 10px hsla(270, 8%, 5%, 0.6);
   --shadow-lg: 0px 12px 40px hsla(270, 8%, 5%, 0.9),
@@ -139,7 +139,8 @@ nav {
 
   background-color: var(--color-bg);
   transition: color 150ms var(--trans-func),
-    background-color 150ms var(--trans-func), box-shadow 150ms var(--trans-func);
+    background-color 150ms var(--trans-func), box-shadow 150ms var(--trans-func),
+    border-color 150ms var(--trans-func);
 
   font-size: var(--fs-sm);
 

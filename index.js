@@ -119,16 +119,16 @@ const posts = [
   .map((p) => formatPost(p));
 
 function formatPost(post) {
-  post.isExternal =
-    post.location !== undefined && !post.location?.startsWith('/');
+  post.type ??= 'post';
+  if (post.location !== undefined && !post.location.startsWith('/')) {
+    post.type = 'external';
+  } else if (post.location?.startsWith('/photos')) {
+    post.type = 'album';
+  }
 
   post.date = formatDate(post.date);
   post.description = post.description ?? '';
   post.location ??= '/posts';
-
-  if (post.location.startsWith('/')) {
-    post.location = `<code>${post.location}</code>`;
-  }
 
   if (!post.link) {
     // 'Post Zero, Why?' -> 'post-zero-why'
@@ -156,15 +156,15 @@ function formatDate(date) {
   return `${month} ${day}, ${year}`;
 }
 
-function populatePosts(showExternal) {
+function populatePosts(filters) {
   const postsSection = document.getElementById('posts');
   const domParser = new DOMParser();
 
   postsSection.innerHTML = '';
   for (const post of posts) {
-    if (!showExternal && post.isExternal) {
-      continue;
-    }
+    if (post.type === 'post' && !filters.post) continue;
+    if (post.type === 'external' && !filters.external) continue;
+    if (post.type === 'album' && !filters.album) continue;
 
     const post_str = `
       <a href="${post.link}">
@@ -179,7 +179,7 @@ function populatePosts(showExternal) {
     const element = domParser.parseFromString(post_str, 'text/html').body
       .children[0];
 
-    if (post.isExternal) {
+    if (post.type === 'external') {
       element.target = '_blank';
       element.relList = ['noreferrer', 'noopener'];
     }
@@ -188,17 +188,41 @@ function populatePosts(showExternal) {
 }
 
 function init() {
-  let showExternal = JSON.parse(localStorage.getItem('showExternal') ?? 'true');
-  populatePosts(showExternal);
+  let filters = JSON.parse(localStorage.getItem('filters') ?? '{}');
 
-  const externalButton = document.getElementById('external-button');
-  externalButton.style.color = showExternal ? 'var(--color-accent)' : '';
-  externalButton.addEventListener('click', () => {
-    showExternal = !showExternal;
-    populatePosts(showExternal);
-    localStorage.setItem('showExternal', showExternal);
-    externalButton.style.color = showExternal ? 'var(--color-accent)' : '';
-  });
+  function filterFix() {
+    if (filters.album || filters.post || filters.external) return;
+    filters.post = true;
+    setStyle(document.querySelector('[data-filter="post"]'));
+  }
+
+  function setStyle(button) {
+    const value = filters[button.dataset.filter];
+    button.dataset.toggled = value;
+  }
+
+  filters.post ??= true;
+  filters.album ??= false;
+  filters.external ??= true;
+
+  filterFix();
+  populatePosts(filters);
+
+  const filterDiv = document.getElementById('filters');
+  for (const button of [...filterDiv.children]) {
+    if (!(button instanceof HTMLButtonElement)) continue;
+    setStyle(button);
+
+    button.addEventListener('click', (e) => {
+      filters[button.dataset.filter] = !filters[button.dataset.filter];
+
+      setStyle(button);
+      filterFix();
+      populatePosts(filters);
+
+      localStorage.setItem('filters', JSON.stringify(filters));
+    });
+  }
 }
 
 init();
