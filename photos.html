@@ -14,6 +14,7 @@
   <style>
     :root {
       --info-grid-area: 'title' 'gear' 'settings' 'file';
+      --gallery-columns: 1fr 1fr;
     }
 
     [data-theme='light'] {
@@ -24,15 +25,20 @@
       --color-bg-dialog: black;
     }
 
-    @media only screen and (min-width: 961px) {
+    [data-visible='false'] {
+      display: none;
+    }
+
+    @media only screen and (width>960px) {
       :root {
         --info-grid-area: 'title gear settings file';
+        --gallery-columns: 1fr 1fr 1fr;
       }
     }
 
     .gallery {
       display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-columns: var(--gallery-columns);
       gap: var(--lr-spacing);
       margin-bottom: var(--spacing);
 
@@ -82,7 +88,7 @@
 
     dialog {
       width: 100vw;
-      height: 100dvh;
+      height: 100vh;
       position: fixed;
       top: 0;
       left: 0;
@@ -94,8 +100,9 @@
       overflow: scroll;
     }
 
+
     div#fullview-outer {
-      min-height: 100dvh;
+      min-height: 100vh;
 
       display: flex;
       justify-content: center;
@@ -212,6 +219,69 @@
           gap: calc(var(--spacing) / 3);
         }
       }
+
+      .help {
+        padding: var(--lr-spacing) 0;
+        border-bottom: 1px solid var(--color-border);
+        font-size: var(--fs-xs);
+        line-height: 1.7;
+
+        kbd {
+          padding: 0 0.2rem;
+          border: 1px solid var(--color-border);
+          background-color: var(--color-bg-light);
+        }
+
+        kbd,
+        .ref {
+          font-family: var(--var-font-mono);
+          font-size: calc(var(--fs-xs) * 0.95);
+        }
+      }
+    }
+
+    /* landscape or portrait mobile */
+    @media (pointer: coarse) and (hover: none) and (((height<520px) and (width>880px)) or ((width<520px) and (height>880px))) {
+      #context-container {
+        border-top: 1px solid var(--color-border);
+        position: fixed;
+        bottom: env(safe-area-inset-bottom, 0);
+        left: 0;
+        width: calc(100% - (var(--lr-spacing) * 2));
+        padding: var(--lr-spacing);
+        background-color: var(--color-bg-dialog);
+
+        .help {
+          padding-top: 0 !important;
+          line-height: 1.5 !important;
+          padding-bottom: var(--lr-spacing);
+          border-bottom: none !important;
+        }
+
+        .caption {
+          margin-top: 0 !important;
+        }
+
+        button {
+          outline: none;
+        }
+
+        .buttons {
+          &>* {
+            display: none;
+          }
+
+          #close-button,
+          #help-button,
+          p {
+            display: block !important;
+          }
+        }
+
+        #info {
+          border-bottom: none !important;
+        }
+      }
     }
   </style>
 </head>
@@ -232,52 +302,72 @@
       <div id="fullview-inner">
         <div id="fullview-image-container"></div>
 
-        <div id="info">
-          <div>
-            <h1 id="info-title"></h1>
-            <h1 id="info-album"></h1>
-            <time title="Capture datetime" id="info-time"></time>
-          </div>
-
-          <div>
-            <h2>gear</h2>
-            <div class="gear">
-              <p title="Camera" id="info-camera"></p>
-              <p title="Lens" id="info-lens"></p>
+        <div id="context-container">
+          <div id="info">
+            <div>
+              <h1 id="info-title"></h1>
+              <h1 id="info-album"></h1>
+              <time title="Capture datetime" id="info-time"></time>
             </div>
-          </div>
 
-          <div>
-            <h2>settings</h2>
-            <div class="settings">
-              <p title="ISO" id="info-iso"></p>
-              <p title="F Stop" id="info-fstop"></p>
-              <p title="Shutter Speed" id="info-shutter"></p>
+            <div>
+              <h2>gear</h2>
+              <div class="gear">
+                <p title="Camera" id="info-camera"></p>
+                <p title="Lens" id="info-lens"></p>
+              </div>
             </div>
-            <p title="Focal Length" id="info-focal"></p>
-            <!-- <p title="Exposure Program" id="info-program"></p> -->
-          </div>
 
-          <div>
-            <h2>file</h2>
-            <div class="filedata">
-              <p title="Filename" id="info-filename"></p>
-              <div>
-                <p title="Megapixels" id="info-mpix"></p>
-                <p title="Resolution" id="info-resolution"></p>
+            <div>
+              <h2>settings</h2>
+              <div class="settings">
+                <p title="ISO" id="info-iso"></p>
+                <p title="F Stop" id="info-fstop"></p>
+                <p title="Shutter Speed" id="info-shutter"></p>
+              </div>
+              <p title="Focal Length" id="info-focal"></p>
+              <!-- <p title="Exposure Program" id="info-program"></p> -->
+            </div>
+
+            <div>
+              <h2>file</h2>
+              <div class="filedata">
+                <p title="Filename" id="info-filename"></p>
+                <div>
+                  <p title="Megapixels" id="info-mpix"></p>
+                  <p title="Resolution" id="info-resolution"></p>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <div class="caption">
-          <h1 id="fullview-title"></h1>
-          <div class="buttons">
-            <button id="prev-button">prev</button>
-            <button id="next-button">next</button>
-            <p style="color: var(--color-border)">·</p>
-            <button id="info-button">info</button>
-            <button id="close-button">close</button>
+          <div id="help-touch" class="help" data-visible="false">
+            <p><kbd>swipe up</kbd> to show info</p>
+            <p><kbd>swipe down</kbd> to hide info</p>
+            <p><kbd>swipe right</kbd> for the next photo</p>
+            <p><kbd>swipe left</kbd> for the previous photo</p>
+            <p>tap <span class="ref">close</span> to go back to the gallery</p>
+            <p>tap <span class="ref">help</span> to close this help message</p>
+          </div>
+
+          <div id="help-keyboard" class="help" data-visible="false">
+            <p><kbd>i</kbd> to toggle info</p>
+            <p><kbd>→</kbd> or <kbd>l</kbd> for the next photo</p>
+            <p><kbd>←</kbd> or <kbd>h</kbd> for the previous photo</p>
+            <p><kbd>esc</kbd> to go back to the gallery</p>
+            <p><kbd>?</kbd> to toggle this help message</p>
+          </div>
+
+          <div class="caption">
+            <h1 id="fullview-title"></h1>
+            <div class="buttons">
+              <button id="help-button">help</button>
+              <button id="prev-button">prev</button>
+              <button id="next-button">next</button>
+              <button id="info-button">info</button>
+              <p style="color: var(--color-border)">·</p>
+              <button id="close-button">close</button>
+            </div>
           </div>
         </div>
       </div>

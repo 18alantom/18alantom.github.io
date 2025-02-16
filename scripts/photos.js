@@ -1,7 +1,11 @@
 const docTitle = "Photo's From Alan's Space";
-const touchStart = { x: 0, y: 0, time: 0 }; // track gestures
-const scrollTop = { body: 0, document: 0 }; // for restoring scroll position after fullview
+const isTouchSupported =
+  /Android|iPhone|iPad|Opera Mini/i.test(navigator.userAgent) ||
+  navigator.maxTouchPoints > 0;
 
+// Globals to manage state
+const touchStart = { x: 0, y: 0, time: 0, count: 0 }; // track gestures
+const scrollTop = { body: 0, document: 0 }; // for restoring scroll position after fullview
 let dispatchLocationChange = true; //  prevents event dispatch, prevents ∞ recursion
 
 function init() {
@@ -24,13 +28,34 @@ function init() {
 
   registerLocationChangeDispatchers();
   window.addEventListener('locationchange', updateDialog);
-  hideInfo();
+  toggleInfo(false);
   setAllLinkDisplay();
   addGestureListeners();
+  document
+    .getElementById('help-button')
+    .addEventListener('click', () => toggleHelp());
+}
+
+function toggleHelp(show) {
+  toggleInfo(false);
+  const id = isTouchSupported ? 'help-touch' : 'help-keyboard';
+  const help = document.getElementById(id);
+
+  show ??= help.dataset.visible === 'false';
+  const fullview = getFullview();
+  if (!fullview || !fullview.open) return;
+
+  help.dataset.visible = show ? 'true' : 'false';
+
+  if (show) {
+    fullview.scrollTop = fullview.scrollHeight;
+  } else {
+    fullview.scrollTop = 0;
+  }
 }
 
 function handleKeydown(e) {
-  if (e.shiftKey || e.metaKey || e.altKey) {
+  if ((e.shiftKey && e.key !== '?') || e.metaKey || e.altKey) {
     return;
   }
 
@@ -51,6 +76,9 @@ function handleKeydown(e) {
       break;
     case 'i':
       toggleInfo();
+      break;
+    case '?':
+      toggleHelp();
       break;
   }
 }
@@ -236,7 +264,11 @@ function updateFullview(image) {
 
   //  Select min of (max width - clearance) OR (max height - clearance) as width
   const maxWidth = `calc(100vw - (2 * var(--lr-spacing)))`;
-  const maxHeight = `calc((100dvh - 3 * var(--lr-spacing) - var(--fs-base)) * ${aspectRatio})`;
+  let maxHeight = `calc((100vh - 3 * var(--lr-spacing) - var(--fs-base)) * ${aspectRatio})`;
+  if (isTouchSupported && window.innerHeight < window.innerWidth) {
+    // additional clearance for fixed info bar
+    maxHeight = `calc((100vh - 8 * var(--lr-spacing) - var(--fs-base)) * ${aspectRatio})`;
+  }
   const width = `min(${maxWidth}, ${maxHeight})`;
   container.parentElement.style.width = width;
 
@@ -372,36 +404,27 @@ function closeFullview() {
   const fullview = getFullview();
   if (fullview.open) fullview.close();
   document.title = docTitle;
-  hideInfo();
+  toggleInfo(false);
+  toggleHelp(false);
   setTheme(); // from theme.js
 }
 
-function toggleInfo() {
-  if (document.getElementById('info').style.display === 'none') {
-    showInfo();
+function toggleInfo(show) {
+  show ??= document.getElementById('info').style.display === 'none';
+  const fullview = getFullview();
+  const infoDiv = document.getElementById('info');
+  const titleH1 = document.getElementById('fullview-title');
+
+  if (show) {
+    toggleHelp(false);
+    titleH1.style.display = 'none';
+    infoDiv.style.display = '';
+    fullview.scrollTop = fullview.scrollHeight;
   } else {
-    hideInfo();
+    titleH1.style.display = '';
+    infoDiv.style.display = 'none';
+    fullview.scrollTop = 0;
   }
-}
-
-function showInfo() {
-  const fullview = getFullview();
-  const infoDiv = document.getElementById('info');
-  const titleH1 = document.getElementById('fullview-title');
-
-  titleH1.style.display = 'none';
-  infoDiv.style.display = '';
-  fullview.scrollTop = fullview.scrollHeight;
-}
-
-function hideInfo() {
-  const fullview = getFullview();
-  const infoDiv = document.getElementById('info');
-  const titleH1 = document.getElementById('fullview-title');
-
-  titleH1.style.display = '';
-  infoDiv.style.display = 'none';
-  fullview.scrollTop = 0;
 }
 
 function formatDate(date, mentionTime) {
@@ -424,10 +447,6 @@ function formatAlbumDate(date) {
 }
 
 function addGestureListeners() {
-  const isTouchSupported =
-    /Android|iPhone|iPad|Opera Mini/i.test(navigator.userAgent) ||
-    navigator.maxTouchPoints > 0;
-
   if (!isTouchSupported) return;
 
   document.addEventListener(
@@ -435,8 +454,8 @@ function addGestureListeners() {
     (e) => {
       touchStart.x = e.touches[0].clientX;
       touchStart.y = e.touches[0].clientY;
-      // console.log(e.touches);
       touchStart.time = new Date().valueOf();
+      touchStart.count = e.touches.length;
     },
     false
   );
@@ -447,15 +466,17 @@ function addGestureListeners() {
 function handleTouchEnd(e) {
   if (!getFullview().open) return;
 
-  const swipeThreshold = 50;
   const swipeDistanceX = e.changedTouches[0].clientX - touchStart.x;
   const swipeDistanceY = e.changedTouches[0].clientY - touchStart.y;
   const duration = new Date().valueOf() - touchStart.time;
-  // TODO: complete this, gestures are a bit jank right now
 
+  const min = 50;
+  const max = 200;
   if (
-    (Math.abs(swipeDistanceX) < swipeThreshold &&
-      Math.abs(swipeDistanceY) < swipeThreshold) ||
+    (Math.abs(swipeDistanceX) < min && Math.abs(swipeDistanceY) < min) ||
+    (Math.abs(swipeDistanceX) > max && Math.abs(swipeDistanceY) > max) ||
+    (window.visualViewport?.scale ?? 1) > 1.5 ||
+    touchStart.count !== 1 ||
     duration > 500
   )
     return;
@@ -466,9 +487,10 @@ function handleTouchEnd(e) {
   } else if (isHorizontal && swipeDistanceX > 0) {
     changeImage(false);
   } else if (!isHorizontal && swipeDistanceY < 0) {
-    showInfo();
+    toggleInfo(true);
   } else {
-    hideInfo();
+    toggleInfo(false);
+    toggleHelp(false);
   }
 }
 
