@@ -2,8 +2,8 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <!-- Loading Stylesheets and Icon -->
   <link rel="stylesheet" href="./styles/common.css" />
@@ -13,12 +13,7 @@
   <title>Photo's From Alan's Space</title>
   <style>
     :root {
-      --info-grid-area:
-        "title"
-        "gear"
-        "settings"
-        "file"
-      ;
+      --info-grid-area: 'title' 'gear' 'settings' 'file';
     }
 
     [data-theme='light'] {
@@ -31,9 +26,7 @@
 
     @media only screen and (min-width: 961px) {
       :root {
-        --info-grid-area:
-          "title gear settings file"
-        ;
+        --info-grid-area: 'title gear settings file';
       }
     }
 
@@ -89,7 +82,8 @@
 
     dialog {
       width: 100vw;
-      height: 100vh;
+      height: 100dvh;
+      position: fixed;
       top: 0;
       left: 0;
       border: 0;
@@ -100,8 +94,8 @@
       overflow: scroll;
     }
 
-    div.fullview-outer {
-      min-height: 100vh;
+    div#fullview-outer {
+      min-height: 100dvh;
 
       display: flex;
       justify-content: center;
@@ -110,7 +104,7 @@
       div#fullview-inner {
         padding: var(--lr-spacing);
 
-        div#fullview-container {
+        div#fullview-image-container {
           position: relative;
           background-repeat: no-repeat;
           background-size: cover;
@@ -139,7 +133,6 @@
             }
           }
         }
-
 
         div.caption {
           margin-top: var(--lr-spacing);
@@ -235,9 +228,9 @@
   </nav>
 
   <dialog id="fullview">
-    <div class="fullview-outer">
+    <div id="fullview-outer">
       <div id="fullview-inner">
-        <div id="fullview-container"></div>
+        <div id="fullview-image-container"></div>
 
         <div id="info">
           <div>
@@ -282,7 +275,7 @@
           <div class="buttons">
             <button id="prev-button">prev</button>
             <button id="next-button">next</button>
-            <p style="color:var(--color-border)">·</p>
+            <p style="color: var(--color-border)">·</p>
             <button id="info-button">info</button>
             <button id="close-button">close</button>
           </div>
@@ -294,4 +287,3 @@
 <script src="./scripts/photos.js" type="text/javascript"></script>
 
 </html>
-</div>

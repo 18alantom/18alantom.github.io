@@ -26,7 +26,6 @@
   --fs-xs: 0.75rem;
 
   /* Post Specific */
-  --heading-filter: saturate(0.8);
   --mt-common: 1rem;
   --mb-common: 1.25rem;
   --lh-p: calc(var(--fs-base) * 1.4);
@@ -129,7 +128,7 @@ body {
 
 nav {
   position: sticky;
-  top: 0rem;
+  top: 0px;
   overflow: hidden;
 
   display: flex;
@@ -184,7 +183,7 @@ nav > button:focus {
 }
 
 [data-theme='light'] nav img {
-  filter: brightness(0.75) saturate(0);
+  filter: brightness(0.5) saturate(0);
 }
 
 @media only screen and (min-width: 664px) {

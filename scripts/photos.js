@@ -1,5 +1,6 @@
 const docTitle = "Photo's From Alan's Space";
-const touchStart = { x: 0, y: 0 };
+const touchStart = { x: 0, y: 0, time: 0 }; // track gestures
+const scrollTop = { body: 0, document: 0 }; // for restoring scroll position after fullview
 
 let dispatchLocationChange = true; //  prevents event dispatch, prevents ∞ recursion
 
@@ -21,7 +22,7 @@ function init() {
     .getElementById('info-button')
     ?.addEventListener('click', () => toggleInfo());
 
-  registerLocationchangeDispatchers();
+  registerLocationChangeDispatchers();
   window.addEventListener('locationchange', updateDialog);
   hideInfo();
   setAllLinkDisplay();
@@ -54,7 +55,7 @@ function handleKeydown(e) {
   }
 }
 
-function registerLocationchangeDispatchers() {
+function registerLocationChangeDispatchers() {
   /**
    * history updation methods need to be overridden
    * cause there isn't another viable way to listen
@@ -193,11 +194,15 @@ function openFullview() {
   const fullview = getFullview();
 
   if (document.getElementById('info')?.style.display === '') {
-    fullview.scrollTop = fullview.scrollHeight;
+    fullview.scrollTop = fullview.scrollHeight; // scroll to bottom edge if info visible
   }
 
-  fullview.style.top = `${(document.getElementById('fullview').style.top =
-    document.documentElement.scrollTop || document.body.scrollTop)}px`;
+  // top 0 to prevent weird -ve top in fullview, restored on close
+  scrollTop.body = document.body.scrollTop;
+  scrollTop.document = document.documentElement.scrollTop;
+  document.documentElement.style.scrollBehavior = 'auto';
+  document.body.scrollTop = 0;
+  document.documentElement.scrollTop = 0;
   document.body.style.overflow = 'hidden';
 
   fullview.show();
@@ -221,7 +226,7 @@ function updateFullview(image) {
   }
 
   // Set container dimensions
-  const container = document.getElementById('fullview-container');
+  const container = document.getElementById('fullview-image-container');
   const [w, h] = image.metadata.ImageSize.split('x').map((i) => Number(i));
 
   container.style.backgroundImage = `url('${image.preload}')`;
@@ -231,7 +236,7 @@ function updateFullview(image) {
 
   //  Select min of (max width - clearance) OR (max height - clearance) as width
   const maxWidth = `calc(100vw - (2 * var(--lr-spacing)))`;
-  const maxHeight = `calc((100vh - 3 * var(--lr-spacing) - var(--fs-base)) * ${aspectRatio})`;
+  const maxHeight = `calc((100dvh - 3 * var(--lr-spacing) - var(--fs-base)) * ${aspectRatio})`;
   const width = `min(${maxWidth}, ${maxHeight})`;
   container.parentElement.style.width = width;
 
@@ -358,7 +363,12 @@ function closeFullview() {
     dispatchLocationChange = true;
   }
 
+  // restore positions
+  document.documentElement.scrollTop = scrollTop.document;
+  document.body.scrollTop = scrollTop.body;
   document.body.style.overflow = '';
+  document.documentElement.style.scrollBehavior = '';
+
   const fullview = getFullview();
   if (fullview.open) fullview.close();
   document.title = docTitle;
@@ -425,6 +435,8 @@ function addGestureListeners() {
     (e) => {
       touchStart.x = e.touches[0].clientX;
       touchStart.y = e.touches[0].clientY;
+      // console.log(e.touches);
+      touchStart.time = new Date().valueOf();
     },
     false
   );
@@ -438,10 +450,13 @@ function handleTouchEnd(e) {
   const swipeThreshold = 50;
   const swipeDistanceX = e.changedTouches[0].clientX - touchStart.x;
   const swipeDistanceY = e.changedTouches[0].clientY - touchStart.y;
+  const duration = new Date().valueOf() - touchStart.time;
+  // TODO: complete this, gestures are a bit jank right now
 
   if (
-    Math.abs(swipeDistanceX) < swipeThreshold &&
-    Math.abs(swipeDistanceY) < swipeThreshold
+    (Math.abs(swipeDistanceX) < swipeThreshold &&
+      Math.abs(swipeDistanceY) < swipeThreshold) ||
+    duration > 500
   )
     return;
 
