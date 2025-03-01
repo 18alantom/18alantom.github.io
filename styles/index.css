@@ -101,3 +101,8 @@ section {
 #posts::-webkit-scrollbar {
   display: none;
 }
+
+.pinned > .date-location::after {
+  content: '*';
+  color: var(--color-accent);
+}
