@@ -55,7 +55,7 @@ section {
   display: flex;
   flex-direction: column;
   gap: var(--spacing);
-  margin-bottom: 30vh;
+  margin-bottom: 40vh;
 
   a {
     display: flex;

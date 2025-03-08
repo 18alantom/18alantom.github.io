@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#1f1b22" />
+
+    <link rel="stylesheet" href="../styles/post.css" />
+    <link rel="icon" href="../assets/logo.png" type="image/x-icon" />
+    <script src="../scripts/theme.js" type="text/javascript"></script>
+    <script src="../scripts/posts.js"></script>
+
+    <title>Archiving Strawberry</title>
+  </head>
+  <body>
+    <nav id="nav">
+      <a href="../">home</a>
+      <button id="toggle-theme" title="Toggle theme">
+        <img src="../assets/logo.png" />
+      </button>
+    </nav>
+    <h1 id="archiving-strawberry">Archiving Strawberry</h1>
+    <time datetime="2025-03-08">8th March, 2025</time>
+    <h3 id="why-it-started">Why it started</h3>
+    <p>
+      <a href="https://github.com/18alantom/strawberry">Strawberry</a> was an
+      experimental web framework I’d started writing to see if the niceties of
+      modern web frameworks could be had without the kind of involvement they
+      demanded—build steps, DSLs, tooling, heft, etc.
+    </p>
+    <p>
+      From
+      <a href="https://18alantom.github.io/strawberry" rel="noreferrer"
+        >Strawberry's website</a
+      >:
+    </p>
+    <blockquote>
+      <p>I wanted to write a simple website.</p>
+      <p>
+        I restrained myself from using the usual frontend frameworks; for my
+        purpose, their murder of dependencies felt like gross computational
+        opulence.
+      </p>
+      <p>
+        These previously, on annual re-visitation, instead of showing me my
+        website after an innocuous yarn build, have sprawled my terminal with
+        scary red text; portent of wasted hours.
+      </p>
+    </blockquote>
+    <p>
+      The <em>simple website</em> refers to
+      <a href="https://18alan.space/">18alan.space</a>, which previously was
+      written using Gatsby (React), TypeScript, GraphQL etc. I remember opening
+      the repo to write a post after a long gap and noticing that everything was
+      unnecessarily complex.
+    </p>
+    <p>
+      There were 43 TypeScript files, weird GraphQL queries for fetching images
+      into blog posts,
+      <a href="https://mdxjs.com/" target="_blank" rel="noreferrer">MDX</a>, and
+      other such inelegant warts. Considering my website was just a handful of
+      blog posts, it all felt deeply stupid.
+    </p>
+    <p>
+      It was, in hindsight, a junior-developerism where one feels impelled to
+      shoehorn the latest tech-stack being peddled by the
+      <a
+        href="https://preview.redd.it/du1zibfkl04d1.jpeg?width=1080&amp;crop=smart&amp;auto=webp&amp;s=9370d1b6dfd716d6ccf685d456add5cdf7377736"
+        rel="noreferrer"
+        >dev-fluencer</a
+      >
+      folk in an effort to signal some kind of
+      <button
+        data-content='Another junior-developerism is announcing the initialism
+        of the stack they know. For example "I know MERN stack", an assertion
+        that is bolstered by use of said stack.'
+      >
+        tech literacy</button
+      >.
+    </p>
+    <p>
+      My reaction to this was rewriting my website using plain HTML, CSS, JS. No
+      React, no TypeScript, no GraphQL. It was a silent rebellion of sorts. But
+      I needed to add some dynamic interaction to it, and regular JavaScript
+      felt a bit cumbersome. This lead to me making Strawberry.
+    </p>
+    <h3 id="why-it-stopped">Why it stopped</h3>
+    <p>
+      A few things happened. I ended up just using regular JavaScript in my
+      website—ironically even Strawberry felt like an overkill. And not much
+      later, my work shifted away from
+      <a href="https://github.com/frappe/books" rel="noreferrer"
+        >Frappe Books</a
+      >
+      (an Electron app) to
+      <a href="https://github.com/frappe/press" rel="noreferrer"
+        >Frappe Cloud</a
+      >
+      (a hosting platform).
+    </p>
+    <p>
+      It was a switch I made specifically to move away from webdev to gain some
+      competence in other aspects of software development. This put significant
+      distance between me and frontend development. I wrote close to no
+      JavaScript in that time.
+    </p>
+    <p>
+      Even the next non-work project I did—<a
+        href="https://github.com/18alantom/fex"
+        rel="noreferrer"
+        >fex</a
+      >
+      a CLI file-explorer in Zig—had nothing to do with webdev.
+    </p>
+    <p>
+      Then in mid 2024, I got back into photography and wanted to showcase the
+      pictures I had captured. Unsplash, which I’d used earlier, felt weird on
+      <button
+        data-content="Unsplash makes money off of royalty-free images provided
+        by photographers in exchange for 'exposure'."
+      >
+        reconsideration</button
+      >. And Instagram, which also I’d used earlier, just felt
+      <button
+        data-content="Instagram was less about photography and more about
+        harvesting attention for profit at the expense of societal degradation."
+      >
+        gross</button
+      >. So I just decided to go with my own website.
+    </p>
+    <p>
+      It turned out that that showing pictures on a website isn’t as straight
+      forward as slapping an <code>&lt;img /&gt;</code> in your HTML and calling
+      it a day. There is some sizable complexity involved. And so I was back to
+      the problem that impelled me to make of Strawberry.
+    </p>
+    <p>
+      I’d started writing the
+      <a href="../photos.html" target="_blank">photos</a> page in plain webdev.
+      It didn’t feel tedious. I realized there was a certain amount of fluency I
+      had accrued over the years, and so I didn’t find the need to use
+      Strawberry.
+    </p>
+    <p>I had no use for Strawberry.</p>
+    <h3 id="the-decision">The decision</h3>
+    <p>Archiving Strawberry was a bittersweet decision to take.</p>
+    <p>
+      Working on Strawberry was a lot of fun. It was an inlet for excitement for
+      when work had gotten stale. Coming up with solutions to handle different
+      reactivity problems felt like fun puzzle solving. Designing the website,
+      the
+      <a
+        href="https://www.pixilart.com/art/strawberry-sr27182e5bff14b"
+        rel="noreferrer"
+        target="_blank"
+        >logo</a
+      >, all of it was quite rewarding.
+    </p>
+    <p>
+      But at the end of the day, I didn’t use it. Even though I felt it had
+      potential, I didn’t have the need for it, and so the ever-imperative final
+      push was absent.
+    </p>
+    <p>
+      Ideas—manifested or otherwise—will wither away in the absence of their
+      utility.
+    </p>
+    <p>
+      Now when I consider sinking time into a project, I end up wondering
+      <em>how much do I need this to exist</em>, or
+      <em>how much will I learn from doing this</em>, or more poignantly
+      <button
+        data-content="People who speak corporate call this “profit motive”."
+      >
+        <em>what will I gain from this</em></button
+      >. This line of thought—of <em>finding the angle</em>—is antithetical to
+      fun.
+    </p>
+    <p>
+      Sometimes an idea will take a firm and unrelenting
+      <button
+        data-content="Similar to the deluge of infatuation one feels when becoming fully aware of that certain someone."
+      >
+        grasp over my psyche</button
+      >, and I’ll end up sinking a few weekends in an attempt to realize it. But
+      eventually the grasp weakens, and my logical brain is invoked to
+      <em>find the angle</em>—how can this project be pimped for personal
+      profit?
+    </p>
+    <p>
+      A
+      <button data-content="Nearly two years since my last commit.">
+        few days ago</button
+      >, someone raised an issue on Strawberry’s repo and I got notified. I
+      opened the repo. I looked at the project, the code. I got excited. I
+      created a list of what to do next, and started with it.
+    </p>
+    <p>
+      But when I kept the editor aside, my mind drifted towards
+      <em>finding the angle</em>. I couldn’t find one.
+    </p>
+    <p>
+      The world didn’t need Strawberry, and neither did I. For fun, there were
+      already a handful of other things I wanted to dive into. Having this
+      waiting to be picked up weighed on me in some strange way and impeded me
+      from diving into those things. And so the decision was made.
+    </p>
+  </body>
+</html>

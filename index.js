@@ -65,7 +65,7 @@ const projects = [
   {
     title: 'fetzen',
     date: '2019-07-28T14:10:11Z',
-    description: 'A workout tracking web app.',
+    description: 'A workout tracking web app',
     location: 'GitHub',
     link: 'https://github.com/18alantom/fetzen',
   },
@@ -156,6 +156,12 @@ const albums = [
 
 const posts = [
   {
+    title: 'Archiving Strawberry',
+    date: '2025-03-08',
+    description: 'A bittersweet experience that impelled me to write',
+    link: '/posts/archiving-strawberry.html',
+  },
+  {
     title: 'CODE_READABILITY.md',
     date: '2024-07-05',
     description:
@@ -175,29 +181,29 @@ const posts = [
   {
     title: 'Misanthropy Thwarted',
     date: '2022-01-22',
-    description: 'A serendipitous reminder to douse the cynic.',
+    description: 'A serendipitous reminder to douse the cynic',
   },
   {
     title: 'AGI in T Minus Ten Years',
     date: '2021-11-27',
-    description: 'What I think about AGI arriving soon and you should too.',
+    description: 'What I think about AGI arriving soon and you should too',
   },
   {
     title: 'What The Fuck Is Biting Me?',
     date: '2021-02-06',
     description:
-      'Eleven something AM, woke up feeling like shit. My mental state mourning the cessation of an another failed attempt at good sleep.',
+      'Eleven something AM, woke up feeling like shit. My mental state mourning the cessation of an another failed attempt at good sleep',
   },
   {
     title: 'Post Zero, Why?',
     date: '2021-06-25',
-    description: 'Finally, a digital domicile just for me.',
+    description: 'Finally, a digital domicile just for me',
   },
   {
     title: 'First Attempt at a Complete Rewrite',
     date: '2022-03-08',
     description:
-      "Doing a complete rewrite of Frappe Books has been on my mind for around a month, so I thought I'd give it a shot.",
+      "Doing a complete rewrite of Frappe Books has been on my mind for around a month, so I thought I'd give it a shot",
     location: 'Frappe Books Tech Blog',
     link: '/frappebooks_tech/complete_rewrite',
   },
@@ -205,7 +211,7 @@ const posts = [
     title: 'Enabling Translations',
     date: '2022-02-17',
     description:
-      "Not everyone knows English, and it is generally the least favorite language of polyglots (don't quote me on this). Suffice to say translations are important.",
+      "Not everyone knows English, and it is generally the least favorite language of polyglots (don't quote me on this). Suffice to say translations are important",
     location: 'Frappe Books Tech Blog',
     link: '/frappebooks_tech/enabling_translations',
   },
@@ -213,7 +219,7 @@ const posts = [
     title: 'Refactoring Charts',
     date: '2022-02-08',
     description:
-      'I had to rewrite the charts in Frappe Books. This seemed like the only option. Well almost.',
+      'I had to rewrite the charts in Frappe Books. This seemed like the only option. Well almost',
     location: 'Frappe Books Tech Blog',
     link: '/frappebooks_tech/refactoring_charts',
     pinned: true,
@@ -221,7 +227,7 @@ const posts = [
   {
     title: 'Mumbai University, Everyone Cheated',
     description:
-      'The plot in the banner image of this post shows two histograms. These histograms substantiate the claim in the title.',
+      'The plot in the banner image of this post shows two histograms. These histograms substantiate the claim in the title',
     date: '2021-06-21',
     location: 'Medium',
     link: 'https://18alan.medium.com/mumbai-university-everyone-cheated-83320b8c351a',
@@ -230,7 +236,7 @@ const posts = [
   {
     title: 'Making A Synth With Python — Controllers',
     description:
-      'Part of a series of posts on making a synthesizer using Python. This one covers controllers.',
+      'Part of a series of posts on making a synthesizer using Python. This one covers controllers',
     date: '2021-03-02',
     location: 'Medium',
     link: 'https://python.plainenglish.io/build-your-own-python-synthesizer-part-3-162796b7d351',
@@ -238,7 +244,7 @@ const posts = [
   {
     title: 'Making A Synth With Python — Modulators',
     description:
-      'Part of a series of posts on making a synthesizer using Python. This one covers modulators.',
+      'Part of a series of posts on making a synthesizer using Python. This one covers modulators',
     date: '2021-02-22',
     location: 'Medium',
     link: 'https://python.plainenglish.io/build-your-own-python-synthesizer-part-2-66396f6dad81',
@@ -247,7 +253,7 @@ const posts = [
   {
     title: 'Making A Synth With Python — Oscillators',
     description:
-      'Part of a series of posts on making a synthesizer using Python. This one covers oscillators.',
+      'Part of a series of posts on making a synthesizer using Python. This one covers oscillators',
     date: '2021-02-17',
     location: 'Medium',
     link: 'https://python.plainenglish.io/making-a-synth-with-python-oscillators-2cb8e68e9c3b',
