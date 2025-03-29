@@ -89,6 +89,14 @@ const projects = [
 
 const albums = [
   {
+    title: 'Liminal Like',
+    date: '2025-02-26',
+    description:
+      'Resorts have liminal like spaces, it is rare to find them devoid of people',
+    location: '/photos',
+    link: '/photos.html?album=liminal_like',
+  },
+  {
     title: 'Mold',
     date: '2025-02-10',
     description: 'I wanted to test for mold, but I ran out of petri dishes',
