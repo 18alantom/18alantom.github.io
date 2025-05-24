@@ -19,7 +19,7 @@ const projects = [
     date: '2023-03-27',
     description: 'Zero-dependency, build-free framework for the artisanal web',
     location: 'Strawberry',
-    link: 'https://strawberry.quest/',
+    link: 'https://18alan.space/strawberry/',
     pinned: true,
   },
   {
