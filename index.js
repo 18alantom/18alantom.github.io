@@ -89,6 +89,13 @@ const projects = [
 
 const albums = [
   {
+    title: 'A Short Stroll in Saigon I',
+    date: '2025-05-03',
+    description: 'Sleep deprived, we went looking for bánh mì and a drone shop',
+    location: '/photos',
+    link: '/photos.html?album=a_short_stroll_in_saigon_I',
+  },
+  {
     title: 'Liminal Like',
     date: '2025-02-26',
     description:
